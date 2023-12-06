@@ -29,7 +29,8 @@ namespace WhereToDataAccess.Entities
 
         public int? TotalPlaces { get; set; }
 
-        public ICollection<TourCity>? TourCities { get; set; }
+        
+        public ICollection<TourCity> TourCities { get; set; }
 
         public ICollection<UserTour>? UserTours { get; set; }
     }

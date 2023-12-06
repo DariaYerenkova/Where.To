@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 using WhereToDataAccess;
 using WhereToDataAccess.Interfaces;
 using WhereToServices;
@@ -9,8 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>(e => new UnitOfWork(e.GetService<WhereToDataContext>()));
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ITourService, TourService>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.WriteIndented = true;
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

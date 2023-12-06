@@ -14,5 +14,8 @@ namespace WhereToDataAccess.Interfaces
         void Create(Tour item);
         void Update(Tour item);
         void Delete(int id);
+        IQueryable<Tour> GetToursByDateRange(DateTime stratDate, DateTime endDate);
+        IQueryable<Tour> GetUpcomingTours(DateTime now);
+        IQueryable<Tour> GetToursByCity(int cityId);
     }
 }

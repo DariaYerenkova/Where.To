@@ -12,7 +12,7 @@ namespace WhereToServices.Interfaces
         public IEnumerable<Tour> GetTours();
         public Tour GetTourById(int id);
         public IEnumerable<Tour> GetToursByDateRange(DateTime startDate, DateTime endDate);
-        public IEnumerable<Tour> GetUpcomingTours(DateTime now);
+        public IEnumerable<Tour> GetUpcomingTours();
         public IEnumerable<Tour> GetToursByCity(int cityId);
         public void CreateTour(Tour tour);
         public void Update(Tour tour);
