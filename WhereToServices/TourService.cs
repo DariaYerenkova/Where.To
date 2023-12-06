@@ -56,7 +56,7 @@ namespace WhereToServices
 
         public IEnumerable<Tour> GetUpcomingTours()
         {
-            var tours = uow.Tours.GetUpcomingTours(DateTime.Now.Date);
+            var tours = uow.Tours.GetToursByDateRange(DateTime.Now.Date, null);
             return tours;
         }
 

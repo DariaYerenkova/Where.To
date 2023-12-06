@@ -48,23 +48,20 @@ namespace WhereToDataAccess.Repositories
             return tours;
         }
 
-        public IQueryable<Tour> GetToursByDateRange(DateTime startDate, DateTime endDate)
+        public IQueryable<Tour> GetToursByDateRange(DateTime startDate, DateTime? endDate)
         {
-            var toursInRange = context.Tours.Where(tour =>
-            (EF.Functions.DateDiffDay(startDate, tour.StartDate) >= 0 && EF.Functions.DateDiffDay(tour.StartDate, endDate) >= 0) || // Tours starting within the range
-            (EF.Functions.DateDiffDay(startDate, tour.EndDate) >= 0 && EF.Functions.DateDiffDay(tour.EndDate, endDate) >= 0) ||     // Tours ending within the range
-            (EF.Functions.DateDiffDay(tour.StartDate, startDate) <= 0 && EF.Functions.DateDiffDay(tour.EndDate, endDate) >= 0))     // Tours spanning the entire range
-            .AsQueryable();
-
-            return toursInRange;
-        }
-
-        public IQueryable<Tour> GetUpcomingTours(DateTime now)
-        {
-            var upcomingTours = context.Tours.Where(tour => EF.Functions.DateDiffDay(now, tour.StartDate) >= 0)
-            .AsQueryable();
-
-            return upcomingTours;
+            if (endDate != null)
+            {
+                return context.Tours.Where(tour =>
+                (EF.Functions.DateDiffDay(startDate, tour.StartDate) >= 0 && EF.Functions.DateDiffDay(tour.StartDate, endDate) >= 0) || // Tours starting within the range
+                (EF.Functions.DateDiffDay(startDate, tour.EndDate) >= 0 && EF.Functions.DateDiffDay(tour.EndDate, endDate) >= 0) ||     // Tours ending within the range
+                (EF.Functions.DateDiffDay(tour.StartDate, startDate) <= 0 && EF.Functions.DateDiffDay(tour.EndDate, endDate) >= 0))     // Tours spanning the entire range
+                .AsQueryable();
+            }
+            else
+            {
+                return context.Tours.Where(tour => EF.Functions.DateDiffDay(startDate, tour.StartDate) >= 0).AsQueryable();
+            }
         }
 
         public void Update(Tour item)

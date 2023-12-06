@@ -18,7 +18,7 @@ namespace WhereTo.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetTourById(int id)
+        public ActionResult<Tour> GetTourById(int id)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace WhereTo.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetTours()
+        public ActionResult<IEnumerable<Tour>> GetTours()
         {
             try
             {
@@ -60,7 +60,7 @@ namespace WhereTo.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateTour([FromBody] Tour tour)
+        public ActionResult CreateTour([FromBody] Tour tour)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace WhereTo.Controllers
         }
 
         [HttpGet("byCity")]
-        public IActionResult GetToursByCity(int cityId)
+        public ActionResult<IEnumerable<Tour>> GetToursByCity(int cityId)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace WhereTo.Controllers
         }
 
         [HttpGet("byDate/{startDate}/{endDate}")]
-        public IActionResult GetToursByDateRange(DateTime startDate, DateTime endDate)
+        public ActionResult<IEnumerable<Tour>> GetToursByDateRange(DateTime startDate, DateTime endDate)
         {
             try
             {
@@ -118,7 +118,7 @@ namespace WhereTo.Controllers
         }
 
         [HttpGet("upcoming")]
-        public IActionResult GetUpcomingTours()
+        public ActionResult<IEnumerable<Tour>> GetUpcomingTours()
         {
             try
             {
