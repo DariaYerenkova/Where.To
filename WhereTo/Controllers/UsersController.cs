@@ -19,59 +19,36 @@ namespace WhereTo.Controllers
         [HttpGet("{id}")]
         public IActionResult GetUser(int id)
         {
-            try
+            var user = userService.GetUserById(id);
+
+            if (user == null)
             {
-                var user = userService.GetUserById(id);
-
-                if (user == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(user);
+                throw new KeyNotFoundException();
             }
-            catch (Exception e)
-            {
 
-                return BadRequest();
-            }
+            return Ok(user);
+
         }
 
         [HttpGet]
         public IActionResult GetUsers()
         {
-            try
+            var users = userService.GetUsers();
+
+            if (users == null)
             {
-                var users = userService.GetUsers();
-
-                if (users == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(users);
+                throw new KeyNotFoundException();
             }
-            catch (Exception e)
-            {
 
-                return BadRequest();
-            }
+            return Ok(users);
         }
 
         [HttpPost]
         public IActionResult CreateUser([FromBody] User user)
         {
-            try
-            {
-                userService.CreateUser(user);
+            userService.CreateUser(user);
 
-                return Created(nameof(UsersController.GetUser), user);
-            }
-            catch (Exception e)
-            {
-
-                return BadRequest();
-            }
+            return Created(nameof(UsersController.GetUser), user);
         }
     }
 }
