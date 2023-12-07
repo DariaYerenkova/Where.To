@@ -20,6 +20,8 @@ namespace WhereToServices
 
         public void RegisterUserForTour(UserTour userTour)
         {
+            userTour.DateRegistered = DateTime.Now.Date;
+            userTour.IsPayed = false;
             uow.UserTours.Create(userTour);
             uow.Save();
         }
