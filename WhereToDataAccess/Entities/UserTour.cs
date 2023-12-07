@@ -18,5 +18,7 @@ namespace WhereToDataAccess.Entities
 
         [ForeignKey("UserId")]
         public User? User { get; set; }
+        public bool IsPayed { get; set; }
+        public DateTime DateRegistered { get; set; }
     }
 }
