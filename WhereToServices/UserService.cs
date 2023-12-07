@@ -34,7 +34,7 @@ namespace WhereToServices
         {
             var users = uow.Users.GetAll();
 
-            return users.ToList();
+            return users;
         }
 
         public User GetUserById(int id)

@@ -16,11 +16,11 @@ namespace WhereToDataAccess.Entities
         public int TourId { get; set; }
 
         [ForeignKey("TourId")]
-        public Tour Tour { get; set; }
+        public Tour? Tour { get; set; }
 
         public int CityId { get; set; }
 
         [ForeignKey("CityId")]
-        public City City { get; set; }
+        public City? City { get; set; }
     }
 }
