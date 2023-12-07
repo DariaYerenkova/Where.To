@@ -8,10 +8,9 @@ using WhereToServices.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-//builder.Services.AddTransient<IUnitOfWork, UnitOfWork>(e => new UnitOfWork(e.GetService<WhereToDataContext>()));
-builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
-builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<ITourService, TourService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITourService, TourService>();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
