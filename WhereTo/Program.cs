@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using WhereTo;
 using WhereToDataAccess;
 using WhereToDataAccess.Interfaces;
 using WhereToServices;
@@ -11,6 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITourService, TourService>();
+
+//Add background service
+builder.Services.AddHostedService<TourBookingExpirationChecker>();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
