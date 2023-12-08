@@ -11,6 +11,6 @@ namespace WhereToDataAccess.Interfaces
     {
         void Create(UserTour item);
         void Update(UserTour item);
-        void Delete(UserTour item);
+        void Delete(int userId, int tourId);
     }
 }

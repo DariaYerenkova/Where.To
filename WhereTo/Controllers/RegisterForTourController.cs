@@ -18,7 +18,7 @@ namespace WhereTo.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegisterUserForTour([FromBody] UserTour request)
+        public ActionResult RegisterUserForTour(UserTour request)
         {
             userTourService.RegisterUserForTour(request);
 
@@ -26,7 +26,7 @@ namespace WhereTo.Controllers
         }
 
         [HttpPost("RemoveRegistration")]
-        public ActionResult RemoveUserFromTour([FromBody] UserTour request)
+        public ActionResult RemoveUserFromTour(UserTour request)
         {
             userTourService.RemoveUserFromTour(request);
 

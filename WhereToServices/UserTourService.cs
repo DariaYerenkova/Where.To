@@ -27,7 +27,7 @@ namespace WhereToServices
         }
         public void RemoveUserFromTour(UserTour userTour)
         {
-            uow.UserTours.Delete(userTour);
+            uow.UserTours.Delete(userTour.UserId, userTour.TourId);
             uow.Save();
         }
     }

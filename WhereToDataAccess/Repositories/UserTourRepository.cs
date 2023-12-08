@@ -22,9 +22,9 @@ namespace WhereToDataAccess.Repositories
             context.UserTours.Add(item);
         }
 
-        public void Delete(UserTour item)
+        public void Delete(int userId, int tourId)
         {
-            UserTour userTour = context.UserTours.FirstOrDefault(ut=> ut.UserId == item.UserId && ut.TourId == item.TourId);
+            UserTour userTour = context.UserTours.FirstOrDefault(ut=> ut.UserId == userId && ut.TourId == tourId);
             if (userTour != null)
             {
                 context.UserTours.Remove(userTour);
