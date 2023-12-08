@@ -14,39 +14,23 @@ namespace WhereTo.Controllers
 
         public RegisterForTourController(IUserTourService userTourService)
         {
-                this.userTourService = userTourService;
+            this.userTourService = userTourService;
         }
 
         [HttpPost]
         public ActionResult RegisterUserForTour([FromBody] UserTour request)
         {
-            try
-            {
-                userTourService.RegisterUserForTour(request);
+            userTourService.RegisterUserForTour(request);
 
-                return Created(nameof(RegisterForTourController.RegisterUserForTour), request);
-            }
-            catch (Exception e)
-            {
-
-                return BadRequest();
-            }
+            return Created(nameof(RegisterForTourController.RegisterUserForTour), request);
         }
 
         [HttpPost("RemoveRegistration")]
         public ActionResult RemoveUserFromTour([FromBody] UserTour request)
         {
-            try
-            {
-                userTourService.RemoveUserFromTour(request);
+            userTourService.RemoveUserFromTour(request);
 
-                return Ok();
-            }
-            catch (Exception e)
-            {
-
-                return BadRequest();
-            }
+            return Ok();
         }
     }
 }
