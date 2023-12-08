@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITourService, TourService>();
+builder.Services.AddScoped<IUserTourService, UserTourService>();
 
 //Add background service
 builder.Services.AddHostedService<TourBookingExpirationChecker>();

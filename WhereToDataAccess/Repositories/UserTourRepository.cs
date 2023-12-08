@@ -22,19 +22,13 @@ namespace WhereToDataAccess.Repositories
             context.UserTours.Add(item);
         }
 
-        public void Delete(int id)
+        public void Delete(int userId, int tourId)
         {
-            throw new NotImplementedException();
-        }
-
-        public UserTour Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<UserTour> GetAll()
-        {
-            throw new NotImplementedException();
+            UserTour userTour = context.UserTours.FirstOrDefault(ut=> ut.UserId == userId && ut.TourId == tourId);
+            if (userTour != null)
+            {
+                context.UserTours.Remove(userTour);
+            }
         }
 
         public void Update(UserTour item)
