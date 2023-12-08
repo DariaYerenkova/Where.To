@@ -12,11 +12,13 @@ namespace WhereToDataAccess.Entities
         public int TourId { get; set; }
 
         [ForeignKey("TourId")]
-        public Tour Tour { get; set; }
+        public Tour? Tour { get; set; }
 
         public int UserId { get; set; }
 
         [ForeignKey("UserId")]
-        public User User { get; set; }
+        public User? User { get; set; }
+        public bool IsPayed { get; set; }
+        public DateTime DateRegistered { get; set; }
     }
 }
