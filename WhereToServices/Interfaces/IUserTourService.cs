@@ -11,5 +11,7 @@ namespace WhereToServices.Interfaces
     {
         public void RegisterUserForTour(UserTour userTour);
         public void RemoveUserFromTour(UserTour userTour);
+        Task<List<UserTour>> GetNotPayedAndOverdueUserToursAsync();
+        Task RemoveUserFromTourAsync(UserTour userTour);
     }
 }

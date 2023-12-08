@@ -78,6 +78,12 @@ namespace WhereToDataAccess
             whereToDataContext.SaveChanges();
         }
 
+        public async Task SaveAsync()
+        {
+            await whereToDataContext.SaveChangesAsync();
+        }
+
+
         public UnitOfWork(WhereToDataContext whereToDataContext)
         {
             this.whereToDataContext = whereToDataContext;

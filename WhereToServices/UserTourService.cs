@@ -30,5 +30,17 @@ namespace WhereToServices
             uow.UserTours.Delete(userTour.UserId, userTour.TourId);
             uow.Save();
         }
+
+        public async Task RemoveUserFromTourAsync(UserTour userTour)
+        {
+            await uow.UserTours.DeleteAsync(userTour.UserId, userTour.TourId);
+            await uow.SaveAsync();
+        }
+
+        public async Task<List<UserTour>> GetNotPayedAndOverdueUserToursAsync()
+        {
+            var threeDaysAgo = DateTime.UtcNow.AddDays(-3).Date;
+            return await uow.UserTours.GetNotPayedAndOverdueUserToursAsync(threeDaysAgo);
+        }
     }
 }
