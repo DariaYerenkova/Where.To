@@ -56,11 +56,6 @@ namespace WhereTo.Controllers
         {
             var tours = tourService.GetToursByCity(cityId);
 
-            if (tours == null)
-            {
-                throw new KeyNotFoundException();
-            }
-
             return Ok(tours);
         }
 
@@ -69,11 +64,6 @@ namespace WhereTo.Controllers
         {
             var tours = tourService.GetToursByDateRange(startDate, endDate);
 
-            if (tours == null)
-            {
-                throw new KeyNotFoundException();
-            }
-
             return Ok(tours);
         }
 
@@ -81,11 +71,6 @@ namespace WhereTo.Controllers
         public ActionResult<IEnumerable<Tour>> GetUpcomingTours()
         {
             var tours = tourService.GetUpcomingTours();
-
-            if (tours == null)
-            {
-                throw new KeyNotFoundException();
-            }
 
             return Ok(tours);
         }

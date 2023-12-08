@@ -6,10 +6,12 @@ namespace WhereTo.Middleware
     public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate next;
+        private readonly ILogger<ExceptionHandlerMiddleware> logger;
 
-        public ExceptionHandlerMiddleware(RequestDelegate next)
+        public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
         {
             this.next = next;
+            this.logger = logger;
         }
 
         public async Task Invoke(HttpContext context)
@@ -47,6 +49,7 @@ namespace WhereTo.Middleware
 
             response.StatusCode = (int)statusCode;
             var result = JsonSerializer.Serialize(new { error = message });
+            logger.LogError(message);
             await response.WriteAsync(result);
         }
     }

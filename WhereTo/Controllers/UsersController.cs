@@ -21,11 +21,6 @@ namespace WhereTo.Controllers
         {
             var user = userService.GetUserById(id);
 
-            if (user == null)
-            {
-                throw new KeyNotFoundException();
-            }
-
             return Ok(user);
 
         }
@@ -34,11 +29,6 @@ namespace WhereTo.Controllers
         public IActionResult GetUsers()
         {
             var users = userService.GetUsers();
-
-            if (users == null)
-            {
-                throw new KeyNotFoundException();
-            }
 
             return Ok(users);
         }

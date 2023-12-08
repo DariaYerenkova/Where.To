@@ -33,31 +33,35 @@ namespace WhereToServices
         public Tour GetTourById(int id)
         {
             var tour = uow.Tours.Get(id);
-            return tour;
+
+            return tour == null ? throw new KeyNotFoundException() : tour;
         }
 
         public IEnumerable<Tour> GetTours()
         {
             var tours = uow.Tours.GetAll();
-            return tours;
+
+            return tours == null ? throw new KeyNotFoundException() : (IEnumerable<Tour>)tours;
         }
 
         public IEnumerable<Tour> GetToursByCity(int cityId)
         {
             var tours = uow.Tours.GetToursByCity(cityId);
-            return tours;
+
+            return tours == null ? throw new KeyNotFoundException() : (IEnumerable<Tour>)tours;
         }
 
         public IEnumerable<Tour> GetToursByDateRange(DateTime startDate, DateTime endDate)
         {
             var tours = uow.Tours.GetToursByDateRange(startDate.Date, endDate.Date);
-            return tours;
+
+            return tours == null ? throw new KeyNotFoundException() : (IEnumerable<Tour>)tours;
         }
 
         public IEnumerable<Tour> GetUpcomingTours()
         {
             var tours = uow.Tours.GetToursByDateRange(DateTime.Now.Date, null);
-            return tours;
+            return tours == null ? throw new KeyNotFoundException() : (IEnumerable<Tour>)tours;
         }
 
         public void Update(Tour tour)
