@@ -34,7 +34,7 @@ namespace WhereToServices
         {
             var tour = uow.Tours.Get(id);
 
-            return tour == null ? throw new KeyNotFoundException() : tour;
+            return tour ?? throw new KeyNotFoundException();
         }
 
         public IEnumerable<Tour> GetTours()

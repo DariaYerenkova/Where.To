@@ -22,11 +22,6 @@ namespace WhereTo.Controllers
         {
             var tour = tourService.GetTourById(id);
 
-            if (tour == null)
-            {
-                throw new KeyNotFoundException();
-            }
-
             return Ok(tour);
         }
 
@@ -34,11 +29,6 @@ namespace WhereTo.Controllers
         public ActionResult<IEnumerable<Tour>> GetTours()
         {
             var tours = tourService.GetTours();
-
-            if (tours == null)
-            {
-                throw new KeyNotFoundException();
-            }
 
             return Ok(tours);
         }
@@ -59,8 +49,8 @@ namespace WhereTo.Controllers
             return Ok(tours);
         }
 
-        [HttpGet("byDate/{startDate}/{endDate}")]
-        public ActionResult<IEnumerable<Tour>> GetToursByDateRange(DateTime startDate, DateTime endDate)
+        [HttpGet("byDate")]
+        public ActionResult<IEnumerable<Tour>> GetToursByDateRange([FromQuery] DateTime startDate, DateTime endDate)
         {
             var tours = tourService.GetToursByDateRange(startDate, endDate);
 

@@ -41,7 +41,7 @@ namespace WhereToServices
         {
             var user = uow.Users.Get(id);
 
-            return user == null ? throw new KeyNotFoundException() : user;
+            return user ?? throw new KeyNotFoundException();
         }
         public void Update(User user)
         {

@@ -31,34 +31,20 @@ namespace WhereTo.Middleware
         {
             var response = context.Response;
             response.ContentType = "application/json";
-            string message;
+            string message = string.Empty;
             HttpStatusCode statusCode;
 
             // Handle different types of exceptions 
-            switch (ex)
+            (message, statusCode) = ex switch
             {
-                case KeyNotFoundException keyNotFound:
-                    message = "The requested resource was not found.";
-                    statusCode = HttpStatusCode.NotFound;
-                    break;
-                default:
-                    message = "An error occurred. Please try again later.";
-                    statusCode = HttpStatusCode.InternalServerError;
-                    break;
-            }
+                KeyNotFoundException keyNotFound => ("The requested resource was not found.", HttpStatusCode.NotFound),
+                _ => ("An error occurred. Please try again later.", HttpStatusCode.InternalServerError)
+            };
 
             response.StatusCode = (int)statusCode;
             var result = JsonSerializer.Serialize(new { error = message });
             logger.LogError(message);
             await response.WriteAsync(result);
         }
-    }
-
-    public static class ErrorHandlingExtension
-    {
-        public static IApplicationBuilder ConfigureExceptionHandler(this IApplicationBuilder app)
-        {
-            return app.UseMiddleware<ExceptionHandlerMiddleware>();
-        }
-    }
+    }    
 }
