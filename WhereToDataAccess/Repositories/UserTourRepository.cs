@@ -41,7 +41,7 @@ namespace WhereToDataAccess.Repositories
             }
         }
 
-        public async Task<List<UserTour>> GetNotPayedAndOverdueUserToursAsync(DateTime date)
+        public async Task<List<UserTour>> GetNotPayedAndRegisteredEarlierUserToursAsync(DateTime date)
         {
             var overdueBookings = await context.UserTours
                         .Where(ut => ut.DateRegistered < date && !ut.IsPayed)

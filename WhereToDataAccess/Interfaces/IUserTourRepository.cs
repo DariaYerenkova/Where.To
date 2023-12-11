@@ -12,7 +12,7 @@ namespace WhereToDataAccess.Interfaces
         void Create(UserTour item);
         void Update(UserTour item);
         void Delete(int userId, int tourId);
-        Task<List<UserTour>> GetNotPayedAndOverdueUserToursAsync(DateTime date);
+        Task<List<UserTour>> GetNotPayedAndRegisteredEarlierUserToursAsync(DateTime date);
         Task DeleteAsync(int userId, int tourId);
     }
 }

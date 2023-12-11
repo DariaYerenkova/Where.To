@@ -83,7 +83,6 @@ namespace WhereToDataAccess
             await whereToDataContext.SaveChangesAsync();
         }
 
-
         public UnitOfWork(WhereToDataContext whereToDataContext)
         {
             this.whereToDataContext = whereToDataContext;

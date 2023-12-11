@@ -31,16 +31,28 @@ namespace WhereToServices
             uow.Save();
         }
 
-        public async Task RemoveUserFromTourAsync(UserTour userTour)
+        public async Task RemoveExpiredBookingsAsync()
+        {
+            // Retrieve bookings that are 3 days overdue and not payed
+            var overdueBookings = await GetNotPayedAndOverdueUserToursAsync();
+
+            // Process overdue bookings 
+            foreach (var booking in overdueBookings)
+            {
+                await RemoveUserFromTourAsync(booking);
+            }
+        }
+
+        private async Task RemoveUserFromTourAsync(UserTour userTour)
         {
             await uow.UserTours.DeleteAsync(userTour.UserId, userTour.TourId);
             await uow.SaveAsync();
         }
 
-        public async Task<List<UserTour>> GetNotPayedAndOverdueUserToursAsync()
+        private async Task<List<UserTour>> GetNotPayedAndOverdueUserToursAsync()
         {
             var threeDaysAgo = DateTime.UtcNow.AddDays(-3).Date;
-            return await uow.UserTours.GetNotPayedAndOverdueUserToursAsync(threeDaysAgo);
+            return await uow.UserTours.GetNotPayedAndRegisteredEarlierUserToursAsync(threeDaysAgo);
         }
     }
 }

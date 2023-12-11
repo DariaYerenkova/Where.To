@@ -14,7 +14,6 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITourService, TourService>();
 builder.Services.AddScoped<IUserTourService, UserTourService>();
 
-//Add background service
 builder.Services.AddHostedService<TourBookingExpirationChecker>();
 
 builder.Services.AddControllers().AddJsonOptions(options =>

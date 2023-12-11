@@ -14,28 +14,20 @@ namespace WhereTo
             this.scopeFactory = scopeFactory;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
+            while (!cancellationToken.IsCancellationRequested)
             {
-                using (var scope = scopeFactory.CreateScope())
+                using var scope = scopeFactory.CreateScope();
                 {
                     var userTourService = scope.ServiceProvider.GetRequiredService<IUserTourService>();
 
-                    // Retrieve bookings that are 3 days overdue and not payed
-                    var overdueBookings = await userTourService.GetNotPayedAndOverdueUserToursAsync();
-
-                    // Process overdue bookings 
-                    foreach (var booking in overdueBookings)
-                    {
-                        //remove row from UserTour table
-                        await userTourService.RemoveUserFromTourAsync(booking);
-
-                    }
+                    //Find and remove overdue bookings
+                    await userTourService.RemoveExpiredBookingsAsync();
                 }
 
                 // Wait for the next interval
-                await Task.Delay(TimeSpan.FromSeconds(20), stoppingToken);
+                await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
             }
         }
     }
