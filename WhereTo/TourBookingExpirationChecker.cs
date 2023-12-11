@@ -19,12 +19,12 @@ namespace WhereTo
             while (!cancellationToken.IsCancellationRequested)
             {
                 using var scope = scopeFactory.CreateScope();
-                {
-                    var userTourService = scope.ServiceProvider.GetRequiredService<IUserTourService>();
 
-                    //Find and remove overdue bookings
-                    await userTourService.RemoveExpiredBookingsAsync();
-                }
+                var userTourService = scope.ServiceProvider.GetRequiredService<IUserTourService>();
+
+                //Find and remove overdue bookings
+                await userTourService.RemoveExpiredBookingsAsync();
+
 
                 // Wait for the next interval
                 await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
