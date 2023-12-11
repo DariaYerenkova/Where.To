@@ -50,7 +50,7 @@ namespace WhereTo.Controllers
         }
 
         [HttpGet("byDate")]
-        public ActionResult<IEnumerable<Tour>> GetToursByDateRange([FromQuery] DateTime startDate, DateTime endDate)
+        public ActionResult<IEnumerable<Tour>> GetToursByDateRange(DateTime startDate, DateTime endDate)
         {
             var tours = tourService.GetToursByDateRange(startDate, endDate);
 
