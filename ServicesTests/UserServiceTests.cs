@@ -15,7 +15,6 @@ namespace ServicesTests
         private readonly IEnumerable<User> fakeUsers;
         private readonly Mock<IUnitOfWork> mockUnitOfWork;
         private readonly Mock<IUserRepository> mockRepository;
-        private User user;
 
         #endregion
 
@@ -35,11 +34,10 @@ namespace ServicesTests
             userService = new UserService(mockUnitOfWork.Object);
         }
 
-
         [Fact]
         public void CreateUser_CreateAndSave()
         {
-            var user = new User {Id =4,FirstName="first",LastName="last" };
+            var user = new User {Id = 4, FirstName = "first", LastName = "last" };
 
             // Act
             userService.CreateUser(user);
@@ -91,6 +89,5 @@ namespace ServicesTests
             // Assert
             Assert.Equal(expected, result);
         }
-
     }
 }
