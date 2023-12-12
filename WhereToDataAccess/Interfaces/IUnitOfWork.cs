@@ -16,6 +16,6 @@ namespace WhereToDataAccess.Interfaces
         ITourCityRepository TourCities { get; }
         IUserTourRepository UserTours { get; }
         void Save();
-
+        Task SaveAsync();
     }
 }
