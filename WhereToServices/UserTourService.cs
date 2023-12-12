@@ -5,16 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using WhereToDataAccess.Entities;
 using WhereToDataAccess.Interfaces;
+using WhereToServices.DTOs;
 using WhereToServices.Interfaces;
+using static System.Collections.Specialized.BitVector32;
 
 namespace WhereToServices
 {
     public class UserTourService : IUserTourService
     {
         private readonly IUnitOfWork uow;
+        private readonly MapperService mapper;
 
         public UserTourService(IUnitOfWork uow)
         {
+            mapper = new MapperService();
             this.uow = uow;
         }
 
@@ -55,10 +59,12 @@ namespace WhereToServices
             return await uow.UserTours.GetNotPayedAndRegisteredEarlierUserToursAsync(threeDaysAgo);
         }
 
-        public void PayForTour(UserTour userTour)
+        public void PayForTour(PayForTourDto payForTourDto)
         {
+            var userTour = mapper.Map<PayForTourDto, UserTour>(payForTourDto);
             userTour.IsPayed = true;
             uow.UserTours.Update(userTour);
+            uow.Save();
         }
     }
 }

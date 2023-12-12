@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WhereToDataAccess.Entities;
+using WhereToServices.DTOs;
 using WhereToServices.Interfaces;
 
 namespace WhereTo.Controllers
@@ -18,11 +19,11 @@ namespace WhereTo.Controllers
         }
 
         [HttpPost]
-        public ActionResult PayForTour( UserTour userTour)
+        public ActionResult PayForTour(PayForTourDto model)
         {
-            userTourService.PayForTour(userTour);
+            userTourService.PayForTour(model);
 
-            return Created(nameof(PaymentController.PayForTour), userTour);
+            return Created(nameof(PaymentController.PayForTour), model);
         }
     }
 }

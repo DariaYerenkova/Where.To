@@ -31,8 +31,4 @@
     <ProjectReference Include="..\WhereToServices\WhereToServices.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\RequestModels\" />
-  </ItemGroup>
-
 </Project>
