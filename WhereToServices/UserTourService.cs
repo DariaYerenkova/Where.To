@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,11 +14,11 @@ namespace WhereToServices
     public class UserTourService : IUserTourService
     {
         private readonly IUnitOfWork uow;
-        private readonly MapperService mapper;
+        private readonly IMapper mapper;
 
-        public UserTourService(IUnitOfWork uow)
+        public UserTourService(IUnitOfWork uow, IMapper mapper)
         {
-            mapper = new MapperService();
+            this.mapper = mapper;
             this.uow = uow;
         }
 
