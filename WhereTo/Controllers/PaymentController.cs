@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WhereToDataAccess.Entities;
+using WhereToServices.Interfaces;
 
 namespace WhereTo.Controllers
 {
@@ -17,7 +18,7 @@ namespace WhereTo.Controllers
         }
 
         [HttpPost]
-        public ActionResult PayForTour([FromBody] UserTour userTour)
+        public ActionResult PayForTour( UserTour userTour)
         {
             userTourService.PayForTour(userTour);
 

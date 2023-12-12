@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Query.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -53,6 +54,12 @@ namespace WhereToServices
         {
             var threeDaysAgo = DateTime.UtcNow.AddDays(-3).Date;
             return await uow.UserTours.GetNotPayedAndRegisteredEarlierUserToursAsync(threeDaysAgo);
+        }
+
+        public void PayForTour(UserTour userTour)
+        {
+            userTour.IsPayed = true;
+            uow.UserTours.Update(userTour);
         }
     }
 }
