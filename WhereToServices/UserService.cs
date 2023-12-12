@@ -34,7 +34,7 @@ namespace WhereToServices
         {
             var users = uow.Users.GetAll();
 
-            return users == null ? throw new KeyNotFoundException() : (IEnumerable<User>)users;
+            return users ?? throw new KeyNotFoundException();
         }
 
         public User GetUserById(int id)

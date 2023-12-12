@@ -41,27 +41,27 @@ namespace WhereToServices
         {
             var tours = uow.Tours.GetAll();
 
-            return tours == null ? throw new KeyNotFoundException() : (IEnumerable<Tour>)tours;
+            return tours ?? throw new KeyNotFoundException();
         }
 
         public IEnumerable<Tour> GetToursByCity(int cityId)
         {
             var tours = uow.Tours.GetToursByCity(cityId);
 
-            return tours == null ? throw new KeyNotFoundException() : (IEnumerable<Tour>)tours;
+            return tours ?? throw new KeyNotFoundException();
         }
 
         public IEnumerable<Tour> GetToursByDateRange(DateTime startDate, DateTime endDate)
         {
             var tours = uow.Tours.GetToursByDateRange(startDate.Date, endDate.Date);
 
-            return tours == null ? throw new KeyNotFoundException() : (IEnumerable<Tour>)tours;
+            return tours ?? throw new KeyNotFoundException();
         }
 
         public IEnumerable<Tour> GetUpcomingTours()
         {
             var tours = uow.Tours.GetToursByDateRange(DateTime.Now.Date, null);
-            return tours == null ? throw new KeyNotFoundException() : (IEnumerable<Tour>)tours;
+            return tours ?? throw new KeyNotFoundException();
         }
 
         public void Update(Tour tour)
