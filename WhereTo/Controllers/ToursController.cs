@@ -20,122 +20,49 @@ namespace WhereTo.Controllers
         [HttpGet("{id}")]
         public ActionResult<Tour> GetTourById(int id)
         {
-            try
-            {
-                var tour = tourService.GetTourById(id);
+            var tour = tourService.GetTourById(id);
 
-                if (tour == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(tour);
-            }
-            catch (Exception e)
-            {
-
-                return BadRequest();
-            }
+            return Ok(tour);
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<Tour>> GetTours()
         {
-            try
-            {
-                var tours = tourService.GetTours();
+            var tours = tourService.GetTours();
 
-                if (tours == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(tours);
-            }
-            catch (Exception e)
-            {
-
-                return BadRequest();
-            }
+            return Ok(tours);
         }
 
         [HttpPost]
         public ActionResult CreateTour([FromBody] Tour tour)
         {
-            try
-            {
-                tourService.CreateTour(tour);
+            tourService.CreateTour(tour);
 
-                return Created(nameof(ToursController.GetTours), tour);
-            }
-            catch (Exception e)
-            {
-
-                return BadRequest();
-            }
+            return Created(nameof(ToursController.GetTours), tour);
         }
 
         [HttpGet("byCity")]
         public ActionResult<IEnumerable<Tour>> GetToursByCity(int cityId)
         {
-            try
-            {
-                var tours = tourService.GetToursByCity(cityId);
+            var tours = tourService.GetToursByCity(cityId);
 
-                if (tours == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(tours);
-            }
-            catch (Exception e)
-            {
-
-                return BadRequest();
-            }
+            return Ok(tours);
         }
 
-        [HttpGet("byDate/{startDate}/{endDate}")]
+        [HttpGet("byDate")]
         public ActionResult<IEnumerable<Tour>> GetToursByDateRange(DateTime startDate, DateTime endDate)
         {
-            try
-            {
-                var tours = tourService.GetToursByDateRange(startDate, endDate);
+            var tours = tourService.GetToursByDateRange(startDate, endDate);
 
-                if (tours == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(tours);
-            }
-            catch (Exception e)
-            {
-
-                return BadRequest();
-            }
+            return Ok(tours);
         }
 
         [HttpGet("upcoming")]
         public ActionResult<IEnumerable<Tour>> GetUpcomingTours()
         {
-            try
-            {
-                var tours = tourService.GetUpcomingTours();
+            var tours = tourService.GetUpcomingTours();
 
-                if (tours == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(tours);
-            }
-            catch (Exception e)
-            {
-
-                return BadRequest();
-            }
+            return Ok(tours);
         }
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Text.Json.Serialization;
+using WhereTo.Middleware;
 using WhereTo;
 using WhereToDataAccess;
 using WhereToDataAccess.Interfaces;
@@ -48,6 +49,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.ConfigureExceptionHandler();
 
 app.UseSerilogRequestLogging();
 
