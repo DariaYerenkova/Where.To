@@ -34,13 +34,14 @@ namespace WhereToServices
         {
             var users = uow.Users.GetAll();
 
-            return users;
+            return users ?? throw new KeyNotFoundException();
         }
 
         public User GetUserById(int id)
         {
             var user = uow.Users.Get(id);
-            return user;
+
+            return user ?? throw new KeyNotFoundException();
         }
         public void Update(User user)
         {
