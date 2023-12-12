@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,19 +23,31 @@ namespace WhereToDataAccess.Repositories
             context.UserTours.Add(item);
         }
 
-        public void Delete(int id)
+        public void Delete(int userId, int tourId)
         {
-            throw new NotImplementedException();
+            UserTour userTour = context.UserTours.FirstOrDefault(ut=> ut.UserId == userId && ut.TourId == tourId);
+            if (userTour != null)
+            {
+                context.UserTours.Remove(userTour);
+            }
         }
 
-        public UserTour Get(int id)
+        public async Task DeleteAsync(int userId, int tourId)
         {
-            throw new NotImplementedException();
+            UserTour userTour = await context.UserTours.FirstOrDefaultAsync(ut => ut.UserId == userId && ut.TourId == tourId);
+            if (userTour != null)
+            {
+                context.UserTours.Remove(userTour);
+            }
         }
 
-        public IQueryable<UserTour> GetAll()
+        public async Task<List<UserTour>> GetNotPayedAndRegisteredEarlierUserToursAsync(DateTime date)
         {
-            throw new NotImplementedException();
+            var overdueBookings = await context.UserTours
+                        .Where(ut => ut.DateRegistered < date && !ut.IsPayed)
+                        .ToListAsync();
+
+            return overdueBookings;
         }
 
         public void Update(UserTour item)

@@ -9,10 +9,10 @@ namespace WhereToDataAccess.Interfaces
 {
     public interface IUserTourRepository
     {
-        IQueryable<UserTour> GetAll();
-        UserTour Get(int id);
         void Create(UserTour item);
         void Update(UserTour item);
-        void Delete(int id);
+        void Delete(int userId, int tourId);
+        Task<List<UserTour>> GetNotPayedAndRegisteredEarlierUserToursAsync(DateTime date);
+        Task DeleteAsync(int userId, int tourId);
     }
 }
