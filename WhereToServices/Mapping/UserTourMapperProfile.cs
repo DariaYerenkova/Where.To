@@ -15,7 +15,6 @@ namespace WhereToServices.Mapping
         {
             CreateMap<PayForTourDto, UserTour>()
            .ReverseMap();
-        }
-       
+        }       
     }
 }
