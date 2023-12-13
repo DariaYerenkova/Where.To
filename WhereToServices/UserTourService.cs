@@ -1,10 +1,12 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WhereToDataAccess.Entities;
 using WhereToDataAccess.Interfaces;
+using WhereToServices.DTOs;
 using WhereToServices.Interfaces;
 
 namespace WhereToServices
@@ -12,9 +14,11 @@ namespace WhereToServices
     public class UserTourService : IUserTourService
     {
         private readonly IUnitOfWork uow;
+        private readonly IMapper mapper;
 
-        public UserTourService(IUnitOfWork uow)
+        public UserTourService(IUnitOfWork uow, IMapper mapper)
         {
+            this.mapper = mapper;
             this.uow = uow;
         }
 
@@ -53,6 +57,14 @@ namespace WhereToServices
         {
             var threeDaysAgo = DateTime.UtcNow.AddDays(-3).Date;
             return await uow.UserTours.GetNotPayedAndRegisteredEarlierUserToursAsync(threeDaysAgo);
+        }
+
+        public void PayForTour(PayForTourDto payForTourDto)
+        {
+            var userTour = mapper.Map<PayForTourDto, UserTour>(payForTourDto);
+            userTour.IsPayed = true;
+            uow.UserTours.Update(userTour);
+            uow.Save();
         }
     }
 }

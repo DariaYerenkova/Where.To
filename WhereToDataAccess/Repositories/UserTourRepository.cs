@@ -25,7 +25,7 @@ namespace WhereToDataAccess.Repositories
 
         public void Delete(int userId, int tourId)
         {
-            UserTour userTour = context.UserTours.FirstOrDefault(ut=> ut.UserId == userId && ut.TourId == tourId);
+            UserTour userTour = context.UserTours.FirstOrDefault(ut => ut.UserId == userId && ut.TourId == tourId);
             if (userTour != null)
             {
                 context.UserTours.Remove(userTour);
@@ -52,7 +52,7 @@ namespace WhereToDataAccess.Repositories
 
         public void Update(UserTour item)
         {
-            throw new NotImplementedException();
+            context.Entry(item).State = EntityState.Modified;
         }
     }
 }
