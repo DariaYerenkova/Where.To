@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
@@ -30,10 +31,6 @@
   <ItemGroup>
     <ProjectReference Include="..\WhereToDataAccess\WhereToDataAccess.csproj" />
     <ProjectReference Include="..\WhereToServices\WhereToServices.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\RequestModels\" />
   </ItemGroup>
 
 </Project>
