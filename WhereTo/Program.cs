@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System.Text.Json.Serialization;
 using WhereTo.Middleware;
 using WhereTo;
@@ -31,6 +32,11 @@ builder.Services.AddSwaggerGen();
 //DataBase configuration
 builder.Services.AddDbContext<WhereToDataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnectionString"), b => b.MigrationsAssembly("WhereTo")));
 
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration).CreateLogger();
+
+builder.Host.UseSerilog();
+
 var app = builder.Build();
 
 //using (var scope = app.Services.CreateScope())
@@ -47,6 +53,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.ConfigureExceptionHandler();
+
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
