@@ -17,11 +17,10 @@ jobs:
       - name: Build Docker image and export test results
         run: |
           docker build --target export-test-results --output type=local,dest=out .
-          mkdir -p $HOME/artifacts
-          cp -r ./out/* $HOME/artifacts/
+          ls -la
 
       - name: Upload test results as artifact
         uses: actions/upload-artifact@v2
         with:
           name: exported-test-results
-          path: $HOME/artifacts
+          path: out
