@@ -9,10 +9,10 @@ RUN dotnet restore
 COPY . ./
 
 FROM build-env AS test
-RUN dotnet test --logger "trx;LogFileName=/app/test_results.trx"
+RUN dotnet test --logger "html;LogFileName=/app/test_results.html"
 
 FROM scratch as export-test-results
-COPY --from=test /app/*.trx .
+COPY --from=test /app/*.html .
 
 FROM build-env as publish
 RUN dotnet publish -c Release -o out
