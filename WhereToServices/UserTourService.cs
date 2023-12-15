@@ -16,7 +16,7 @@ namespace WhereToServices
         private readonly IUnitOfWork uow;
         private readonly IMapper mapper;
 
-        public UserTourService(IUnitOfWork uow, IMapper mapper) 
+        public UserTourService(IUnitOfWork uow, IMapper mapper)  
         {
             this.mapper = mapper;
             this.uow = uow;
