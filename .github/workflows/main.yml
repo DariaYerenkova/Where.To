@@ -16,4 +16,4 @@ jobs:
 
       - name: Build and test with Docker
         run: |
-          docker-compose run --build
+          docker build .
