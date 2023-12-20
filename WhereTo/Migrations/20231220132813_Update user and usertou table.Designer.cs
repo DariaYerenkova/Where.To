@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WhereToDataAccess;
 
@@ -11,9 +12,11 @@ using WhereToDataAccess;
 namespace WhereTo.Migrations
 {
     [DbContext(typeof(WhereToDataContext))]
-    partial class WhereToDataContextModelSnapshot : ModelSnapshot
+    [Migration("20231220132813_Update user and usertou table")]
+    partial class Updateuserandusertoutable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

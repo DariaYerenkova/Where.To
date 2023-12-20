@@ -8,6 +8,9 @@ using WhereToDataAccess.Interfaces;
 using WhereToServices;
 using WhereToServices.Interfaces;
 using AutoMapper;
+using Azure.Storage.Queues;
+using System.Configuration;
+using Microsoft.Extensions.Azure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +19,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITourService, TourService>();
 builder.Services.AddScoped<IUserTourService, UserTourService>();
+builder.Services.AddScoped<IQueueMessageService, QueueMessageService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddHostedService<TourBookingExpirationChecker>();
@@ -36,6 +40,17 @@ Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration).CreateLogger();
 
 builder.Host.UseSerilog();
+
+
+builder.Services.AddAzureClients(b =>
+{
+    b.AddClient<QueueClient, QueueClientOptions>((_, _, _) =>
+    {
+        string storageConnectionString = builder.Configuration.GetConnectionString("AzureStorage");
+        string queueName = builder.Configuration["QueueNames:WhereToBookingQueue"];
+        return new QueueClient(storageConnectionString, queueName);
+    });
+});
 
 var app = builder.Build();
 

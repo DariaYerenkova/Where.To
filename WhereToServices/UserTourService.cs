@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WhereToDataAccess.Entities;
+using WhereToDataAccess.Enums;
 using WhereToDataAccess.Interfaces;
 using WhereToServices.DTOs;
 using WhereToServices.Interfaces;
@@ -26,6 +28,7 @@ namespace WhereToServices
         {
             userTour.DateRegistered = DateTime.Now.Date;
             userTour.IsPayed = false;
+            userTour.Status = UserTourStatus.Applied;
             uow.UserTours.Create(userTour);
             uow.Save();
         }
@@ -63,6 +66,7 @@ namespace WhereToServices
         {
             var userTour = mapper.Map<PayForTourDto, UserTour>(payForTourDto);
             userTour.IsPayed = true;
+            userTour.Status = UserTourStatus.Processing;
             uow.UserTours.Update(userTour);
             uow.Save();
         }
