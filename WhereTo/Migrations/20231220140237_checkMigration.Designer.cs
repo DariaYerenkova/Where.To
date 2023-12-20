@@ -12,8 +12,8 @@ using WhereToDataAccess;
 namespace WhereTo.Migrations
 {
     [DbContext(typeof(WhereToDataContext))]
-    [Migration("20231220132813_Update user and usertou table")]
-    partial class Updateuserandusertoutable
+    [Migration("20231220140237_checkMigration")]
+    partial class checkMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
