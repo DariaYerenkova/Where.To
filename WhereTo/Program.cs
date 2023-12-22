@@ -11,6 +11,7 @@ using AutoMapper;
 using Azure.Storage.Queues;
 using System.Configuration;
 using Microsoft.Extensions.Azure;
+using WhereToServices.DTOs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITourService, TourService>();
 builder.Services.AddScoped<IUserTourService, UserTourService>();
-builder.Services.AddScoped<IQueueMessageService, QueueMessageService>();
+builder.Services.AddScoped<IQueueMessageService<PayForTourDto>, WhereTo_BookingQueueMessageService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddHostedService<TourBookingExpirationChecker>();

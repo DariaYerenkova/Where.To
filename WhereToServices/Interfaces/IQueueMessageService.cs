@@ -7,8 +7,9 @@ using WhereToServices.DTOs;
 
 namespace WhereToServices.Interfaces
 {
-    public interface IQueueMessageService
+    public interface IQueueMessageService<T>
     {
-        Whereto_booking_message GenerateMessageForWhereTo_BookingQueue(int userId, int tourId);
+        Task SendMessageToQueueAsync(string message);
+        string GenerateSerializedMesssageForQueue(T model);
     }
 }

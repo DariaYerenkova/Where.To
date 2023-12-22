@@ -14,13 +14,11 @@ namespace WhereTo.Controllers
     public class PaymentController : ControllerBase
     {
         private readonly IUserTourService userTourService;
-        private readonly IQueueMessageService queueMessageService;
-        private readonly QueueClient queueClient;
+        private readonly IQueueMessageService<PayForTourDto> queueMessageService;
 
-        public PaymentController(IUserTourService userTourService, QueueClient queueClient, IQueueMessageService queueMessageService)
+        public PaymentController(IUserTourService userTourService, IQueueMessageService<PayForTourDto> queueMessageService)
         {
             this.userTourService = userTourService;
-            this.queueClient = queueClient;
             this.queueMessageService = queueMessageService;
         }
 
@@ -29,12 +27,8 @@ namespace WhereTo.Controllers
         {
             userTourService.PayForTour(model);
 
-            //Generate message for queue
-            var message = queueMessageService.GenerateMessageForWhereTo_BookingQueue(model.UserId, model.TourId);
-
             //send message to the queue for further processing 
-            var serializedMessage = JsonSerializer.Serialize(message);
-            await queueClient.SendMessageAsync(serializedMessage);
+            await queueMessageService.SendMessageToQueueAsync(queueMessageService.GenerateSerializedMesssageForQueue(model));
 
             return Created(nameof(PaymentController.PayForTour), model);
         }
