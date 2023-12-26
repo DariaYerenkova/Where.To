@@ -21,6 +21,10 @@ namespace WhereToDataAccess.Entities
         [MaxLength(25)]
         public string LastName { get; set; }
 
+        [Required]
+        [MaxLength(25)]
+        public string Passport { get; set; }
+
         public ICollection<UserTour>? UserTours { get; set; }
     }
 }

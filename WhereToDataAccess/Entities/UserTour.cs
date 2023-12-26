@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WhereToDataAccess.Enums;
 
 namespace WhereToDataAccess.Entities
 {
@@ -19,6 +20,7 @@ namespace WhereToDataAccess.Entities
         [ForeignKey("UserId")]
         public User? User { get; set; }
         public bool IsPayed { get; set; }
+        public UserTourStatus Status { get; set; }
         public DateTime DateRegistered { get; set; }
     }
 }
