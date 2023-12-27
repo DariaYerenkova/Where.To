@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WhereToDataAccess.Entities;
+using WhereToDataAccess.Enums;
 
 namespace WhereToDataAccess
 {
@@ -50,9 +52,13 @@ namespace WhereToDataAccess
                 .WithMany(t => t.UserTours)
                 .HasForeignKey(ut => ut.TourId);
 
+            modelBuilder.Entity<UserTour>()
+                .Property(ut=>ut.Status)
+                .HasConversion(new EnumToStringConverter<UserTourStatus>());
+
             modelBuilder.Entity<Tour>()
-            .Property(t => t.Price)
-            .HasPrecision(10, 2);
+                .Property(t => t.Price)
+                .HasPrecision(10, 2);
 
             base.OnModelCreating(modelBuilder);
         }

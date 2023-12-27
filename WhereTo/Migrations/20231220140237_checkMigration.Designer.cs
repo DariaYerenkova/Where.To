@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WhereToDataAccess;
 
@@ -11,9 +12,11 @@ using WhereToDataAccess;
 namespace WhereTo.Migrations
 {
     [DbContext(typeof(WhereToDataContext))]
-    partial class WhereToDataContextModelSnapshot : ModelSnapshot
+    [Migration("20231220140237_checkMigration")]
+    partial class checkMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,9 +134,8 @@ namespace WhereTo.Migrations
                     b.Property<bool>("IsPayed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("UserId", "TourId");
 
