@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace WhereToServices.DTOs
 {
-    public class WhereToBookingMessage(string userFirstName, string userLastName, string passportNumber, string tourName)
+    public class WhereToBookingMessage(string FirstName, string LastName, string PassportNumber, int TourId)
     {
-        public string UserFirstName { get; init; } = userFirstName;
-        public string UserLastName { get; init; } = userLastName;
-        public string PassportNumber { get; init; } = passportNumber;
-        public string TourName { get; init; } = tourName;
+        public string FirstName { get; init; } = FirstName;
+        public string LastName { get; init; } = LastName;
+        public string PassportNumber { get; init; } = PassportNumber;
+        public int TourId { get; init; } = TourId;
 
     }
 }

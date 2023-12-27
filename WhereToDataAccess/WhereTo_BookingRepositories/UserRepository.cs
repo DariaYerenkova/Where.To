@@ -17,9 +17,9 @@ namespace WhereToDataAccess.WhereTo_BookingRepositories
             this.context = _context;
         }
 
-        public void Create(User item)
+        public User Create(User item)
         {
-            context.Users.Add(item);
+            return context.Users.Add(item).Entity;
         }
 
         public void Delete(int id)

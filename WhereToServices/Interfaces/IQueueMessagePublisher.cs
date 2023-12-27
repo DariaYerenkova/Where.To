@@ -7,7 +7,7 @@ using WhereToServices.DTOs;
 
 namespace WhereToServices.Interfaces
 {
-    public interface IQueueMessageService<T>
+    public interface IQueueMessagePublisher<T>
     {
         Task SendMessageToQueueAsync(string message);
         string GenerateSerializedMesssageForQueue(T model);

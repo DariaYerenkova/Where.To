@@ -11,7 +11,7 @@ namespace WhereToDataAccess.WhereTo_BookingInterfaces
     {
         IQueryable<User> GetAll();
         User Get(int id);
-        void Create(User item);
+        User Create(User item);
         void Update(User item);
         void Delete(int id);
     }

@@ -16,6 +16,11 @@ namespace WhereToDataAccess
         private IUserFlightRepository userFlightRepository;
         private IUserHotelRepository userHotelRepository;
 
+        public WhereTo_BookingUnitOfWork(WhereTo_BookingDataContext whereTo_BookingDataContext)
+        {
+            this.whereTo_BookingDataContext = whereTo_BookingDataContext;
+        }
+
         public IUserRepository Users
         {
             get
@@ -47,12 +52,31 @@ namespace WhereToDataAccess
 
         public void Save()
         {
-            throw new NotImplementedException();
+            whereTo_BookingDataContext.SaveChanges();
         }
 
-        public Task SaveAsync()
+        public async Task SaveAsync()
         {
-            throw new NotImplementedException();
+            await whereTo_BookingDataContext.SaveChangesAsync();
+        }
+
+        private bool disposed = false;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    whereTo_BookingDataContext.Dispose();
+                }
+                this.disposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -12,12 +12,12 @@ using WhereToServices.Interfaces;
 
 namespace WhereToServices
 {
-    public class WhereTo_BookingQueueMessageService : IQueueMessageService<PayForTourDto>
+    public class WhereTo_BookingQueueMessagePublisherService : IQueueMessagePublisher<PayForTourDto>
     {
         private readonly IUnitOfWork uow;
         private readonly QueueClient queueClient;
 
-        public WhereTo_BookingQueueMessageService(IUnitOfWork uow, QueueClient queueClient)
+        public WhereTo_BookingQueueMessagePublisherService(IUnitOfWork uow, QueueClient queueClient)
         {
             this.uow = uow;
             this.queueClient = queueClient;
@@ -42,7 +42,7 @@ namespace WhereToServices
             var user = uow.Users.Get(userId);
             var tour = uow.Tours.Get(tourId);
 
-            WhereToBookingMessage queueMessage = new WhereToBookingMessage(user.FirstName, user.LastName, user.Passport, tour.TourName);
+            WhereToBookingMessage queueMessage = new WhereToBookingMessage(user.FirstName, user.LastName, user.Passport, tour.Id);
             return queueMessage;
         }
     }
