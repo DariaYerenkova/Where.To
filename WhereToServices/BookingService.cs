@@ -82,6 +82,7 @@ namespace WhereToServices
                 userHotel.HotelDetails = String.Empty;
             }
             
+            uow.UserHotels.Create(userHotel);
             await uow.SaveAsync();
         }
     }

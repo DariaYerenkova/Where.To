@@ -18,7 +18,7 @@ namespace WhereToDataAccess.WhereTo_BookingEntities
         public User User { get; set; }
 
         [Required]
-        [MaxLength(25)]
+        [MaxLength(500)]
         public string HotelDetails { get; set; }
 
         [Required]
