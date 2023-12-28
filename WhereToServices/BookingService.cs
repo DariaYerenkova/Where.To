@@ -41,7 +41,8 @@ namespace WhereToServices
                 await RegisterUserAsync(bookingModel);
                 await BookFlight(bookingModel);
                 await BookHotel(bookingModel);
-            }
+                await queueMessageSubscriber.DeleteMessageAsync();
+            }           
         }
 
         private async Task RegisterUserAsync(WhereToBookingMessage model)

@@ -9,5 +9,6 @@ namespace WhereToServices.Interfaces
     public interface IQueueMessageSubscriber<T>
     {
         Task<T> ReadMessageFromQueueAsync();
+        Task DeleteMessageAsync();
     }
 }
