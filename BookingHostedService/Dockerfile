@@ -9,7 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["BookingHostedService/BookingHostedService.csproj", "BookingHostedService/"]
-RUN dotnet restore "./BookingHostedService/./BookingHostedService.csproj"
+RUN dotnet restore "./BookingHostedService/BookingHostedService.csproj"
 COPY . .
 WORKDIR "/src/BookingHostedService"
 RUN dotnet build "./BookingHostedService.csproj" -c $BUILD_CONFIGURATION -o /app/build

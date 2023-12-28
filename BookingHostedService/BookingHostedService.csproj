@@ -21,10 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\WhereToDataAccess\WhereToDataAccess.csproj" />
     <ProjectReference Include="..\WhereToServices\WhereToServices.csproj" />
   </ItemGroup>
