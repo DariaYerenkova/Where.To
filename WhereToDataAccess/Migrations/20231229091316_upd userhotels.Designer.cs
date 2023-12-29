@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WhereToDataAccess;
 
@@ -10,9 +11,11 @@ using WhereToDataAccess;
 namespace WhereToDataAccess.Migrations
 {
     [DbContext(typeof(WhereTo_BookingDataContext))]
-    partial class WhereTo_BookingDataContextModelSnapshot : ModelSnapshot
+    [Migration("20231229091316_upd userhotels")]
+    partial class upduserhotels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

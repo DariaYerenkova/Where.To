@@ -28,7 +28,7 @@ namespace WhereToDataAccess
                 .WithOne(uh => uh.User)
                 .HasForeignKey(uh => uh.UserId);
 
-            modelBuilder.Entity<UserHotel>().ToTable("UserHotelss");
+            modelBuilder.Entity<UserHotel>().ToTable("UserHotels");
 
             base.OnModelCreating(modelBuilder);
         }

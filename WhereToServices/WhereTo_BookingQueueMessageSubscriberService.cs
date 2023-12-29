@@ -14,7 +14,8 @@ namespace WhereToServices
     public class WhereTo_BookingQueueMessageSubscriberService : IQueueMessageSubscriber<WhereToBookingMessage>
     {
         private readonly QueueClient queueClient;
-        private Azure.Response<Azure.Storage.Queues.Models.QueueMessage> response;
+        private string messageId;
+        private string popReceipt;
 
         public WhereTo_BookingQueueMessageSubscriberService(QueueClient queueClient)
         {
@@ -24,10 +25,12 @@ namespace WhereToServices
         public async Task<WhereToBookingMessage> ReadMessageFromQueueAsync()
         {
             WhereToBookingMessage deserializedMessage = null;
-            response = await queueClient.ReceiveMessageAsync();
+            var response = await queueClient.ReceiveMessageAsync();
 
             if (response.Value != null) 
             {
+                messageId = response.Value.MessageId;
+                popReceipt = response.Value.PopReceipt;
                 deserializedMessage = DeserializeMessage(response.Value.Body);
             }
 
@@ -36,9 +39,9 @@ namespace WhereToServices
 
         public async Task DeleteMessageAsync()
         {
-            if (response != null)
+            if (messageId != null && popReceipt != null)
             {
-                await queueClient.DeleteMessageAsync(response.Value.MessageId, response.Value.PopReceipt);
+                await queueClient.DeleteMessageAsync(messageId, popReceipt);
             }
         }
 
