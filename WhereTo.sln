@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhereToDataAccess", "WhereT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhereToServices", "WhereToServices\WhereToServices.csproj", "{42BFD3D3-A18A-435A-B7C0-142908E1308D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServicesTests", "ServicesTests\ServicesTests.csproj", "{3645C431-7D10-4F22-A9FA-099FABBCA172}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServicesTests", "ServicesTests\ServicesTests.csproj", "{3645C431-7D10-4F22-A9FA-099FABBCA172}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookingHostedService", "BookingHostedService\BookingHostedService.csproj", "{9D0CA4DF-C8DB-44E1-961E-D59A2987CEC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{3645C431-7D10-4F22-A9FA-099FABBCA172}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3645C431-7D10-4F22-A9FA-099FABBCA172}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3645C431-7D10-4F22-A9FA-099FABBCA172}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D0CA4DF-C8DB-44E1-961E-D59A2987CEC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D0CA4DF-C8DB-44E1-961E-D59A2987CEC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D0CA4DF-C8DB-44E1-961E-D59A2987CEC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D0CA4DF-C8DB-44E1-961E-D59A2987CEC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

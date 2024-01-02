@@ -20,7 +20,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITourService, TourService>();
 builder.Services.AddScoped<IUserTourService, UserTourService>();
-builder.Services.AddScoped<IQueueMessageService<PayForTourDto>, WhereTo_BookingQueueMessageService>();
+builder.Services.AddScoped<IQueueMessagePublisher<PayForTourDto>, WhereTo_BookingQueueMessagePublisherService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddHostedService<TourBookingExpirationChecker>();

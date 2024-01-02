@@ -14,9 +14,9 @@ namespace WhereTo.Controllers
     public class PaymentController : ControllerBase
     {
         private readonly IUserTourService userTourService;
-        private readonly IQueueMessageService<PayForTourDto> queueMessageService;
+        private readonly IQueueMessagePublisher<PayForTourDto> queueMessageService;
 
-        public PaymentController(IUserTourService userTourService, IQueueMessageService<PayForTourDto> queueMessageService)
+        public PaymentController(IUserTourService userTourService, IQueueMessagePublisher<PayForTourDto> queueMessageService)
         {
             this.userTourService = userTourService;
             this.queueMessageService = queueMessageService;
