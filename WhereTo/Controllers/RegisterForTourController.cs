@@ -32,5 +32,11 @@ namespace WhereTo.Controllers
 
             return Ok();
         }
+
+        [HttpPost("ApplyForTour")]
+        public ActionResult ApplyForTour()
+        {
+            return Ok("you hit apply for a Tour endpoint");
+        }
     }
 }

@@ -69,7 +69,7 @@ namespace WhereToServices
             userHotel.UserId = createdUser.Id;
             userHotel.TourId = model.TourId;
 
-            var response = client.GetAsync($"http://localhost:5269/api/Tours/{model.TourId}").Result;
+            var response = client.GetAsync($"https://localhost:7240/api/Tours/{model.TourId}").Result;
             if (response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
