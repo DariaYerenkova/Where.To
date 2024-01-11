@@ -1,3 +1,4 @@
+using Azure;
 using Azure.Storage.Queues;
 using BookingHostedService;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHostedService<WhereTo_BookingQueueSubscriber>();
 builder.Services.AddScoped<IUnitOfWork, WhereTo_BookingUnitOfWork>();
 builder.Services.AddScoped<IQueueMessageSubscriber<WhereToBookingMessage>, WhereTo_BookingQueueMessageSubscriberService>();
+builder.Services.AddScoped<IEventPublisherService<BookingFinishedEvent>, EventPublisherService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHttpClient<WhereTo_BookingQueueSubscriber>(client =>
@@ -39,6 +41,10 @@ builder.Services.AddAzureClients(b =>
         string queueName = builder.Configuration["QueueNames:WhereToBookingQueue"];
         return new QueueClient(storageConnectionString, queueName);
     });
+
+    Uri endpoint = new Uri(builder.Configuration["EventGrid:EventGridTopicEndpoint"]);
+    AzureKeyCredential credential = new AzureKeyCredential(builder.Configuration["EventGrid:EventGridTopicKey"]);
+    b.AddEventGridPublisherClient(endpoint, credential);
 });
 
 var app = builder.Build();
