@@ -24,7 +24,7 @@ namespace WhereToServices
         private readonly IUnitOfWork uow;
         private readonly IMapper mapper;
         private readonly IHttpClientWrapper httpClient;
-        public User createdUser;
+        private User createdUser;
 
     public BookingService(IQueueMessageSubscriber<WhereToBookingMessage> queueMessageSubscriber, IUnitOfWork uow, IMapper mapper, IHttpClientWrapper client, IEventPublisherService<BookingFinishedEvent> eventPublisher)
         {
