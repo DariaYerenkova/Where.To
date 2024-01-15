@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WhereToServices.DTOs
 {
-    public class BookingFinishedEvent(string tourId, string passport)
+    public record BookingFinishedEvent(string tourId, string passport)
     {
         public string TourId { get; init; } = tourId;
         public string UserPassport { get; init; } = passport;
