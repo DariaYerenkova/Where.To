@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using WhereToDataAccess.Entities;
@@ -21,10 +22,10 @@ namespace WhereToServices
         private readonly IQueueMessageSubscriber<WhereToBookingMessage> queueMessageSubscriber;
         private readonly IUnitOfWork uow;
         private readonly IMapper mapper;
-        private readonly HttpClient client;
-        private User createdUser;
+        private readonly IHttpClientWrapper client;
+        public User createdUser;
 
-        public BookingService(IQueueMessageSubscriber<WhereToBookingMessage> queueMessageSubscriber, IUnitOfWork uow, IMapper mapper, HttpClient client)
+    public BookingService(IQueueMessageSubscriber<WhereToBookingMessage> queueMessageSubscriber, IUnitOfWork uow, IMapper mapper, IHttpClientWrapper client)
         {
             this.queueMessageSubscriber = queueMessageSubscriber;
             this.uow = uow;

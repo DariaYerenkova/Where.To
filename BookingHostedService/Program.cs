@@ -22,6 +22,7 @@ builder.Services.AddHttpClient<WhereTo_BookingQueueSubscriber>(client =>
 {
     client.BaseAddress = new Uri("http://localhost:5269/");
 });
+builder.Services.AddScoped<IHttpClientWrapper, HttpClientWrapper>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
