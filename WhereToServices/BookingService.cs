@@ -19,17 +19,19 @@ namespace WhereToServices
     public class BookingService : IBookingService
     {
         private readonly IQueueMessageSubscriber<WhereToBookingMessage> queueMessageSubscriber;
+        private readonly IEventPublisherService<BookingFinishedEvent> eventPublisher;
         private readonly IUnitOfWork uow;
         private readonly IMapper mapper;
-        private readonly HttpClient client;
+        private readonly HttpClient httpClient;
         private User createdUser;
 
-        public BookingService(IQueueMessageSubscriber<WhereToBookingMessage> queueMessageSubscriber, IUnitOfWork uow, IMapper mapper, HttpClient client)
+        public BookingService(IQueueMessageSubscriber<WhereToBookingMessage> queueMessageSubscriber, IUnitOfWork uow, IMapper mapper, HttpClient httpClient, IEventPublisherService<BookingFinishedEvent> eventPublisher)
         {
             this.queueMessageSubscriber = queueMessageSubscriber;
             this.uow = uow;
             this.mapper = mapper;
-            this.client = client;
+            this.httpClient = httpClient;
+            this.eventPublisher = eventPublisher;
         }
 
         public async Task InitBookingProcess()
@@ -41,6 +43,10 @@ namespace WhereToServices
                 await RegisterUserAsync(bookingModel);
                 await BookFlight(bookingModel);
                 await BookHotel(bookingModel);
+
+                BookingFinishedEvent eventData = new BookingFinishedEvent(bookingModel.TourId.ToString(), bookingModel.PassportNumber);
+                await eventPublisher.PublishEventAsync(eventData);
+
                 await queueMessageSubscriber.DeleteMessageAsync();
             }           
         }
@@ -69,7 +75,7 @@ namespace WhereToServices
             userHotel.UserId = createdUser.Id;
             userHotel.TourId = model.TourId;
 
-            var response = client.GetAsync($"http://localhost:5269/api/Tours/{model.TourId}").Result;
+            var response = httpClient.GetAsync($"http://localhost:5269/api/Tours/{model.TourId}").Result;
             if (response.IsSuccessStatusCode)
             {
                 string content = await response.Content.ReadAsStringAsync();
