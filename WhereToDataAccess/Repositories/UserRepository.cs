@@ -33,6 +33,11 @@ namespace WhereToDataAccess.Repositories
             return context.Users.Include(u => u.UserTours).FirstOrDefault(u => u.Id == id);
         }
 
+        public User GetByPassport(string passport)
+        {
+            return context.Users.Include(u => u.UserTours).FirstOrDefault(u => u.Passport == passport);
+        }
+
         public IQueryable<User> GetAll()
         {
             return context.Users.Include(u => u.UserTours);

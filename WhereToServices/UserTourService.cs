@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Messaging.EventGrid;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,13 +16,15 @@ namespace WhereToServices
 {
     public class UserTourService : IUserTourService
     {
+        private readonly IQueueMessageSubscriber<BookingFinishedEvent> queueMessageSubscriber;
         private readonly IUnitOfWork uow;
         private readonly IMapper mapper;
 
-        public UserTourService(IUnitOfWork uow, IMapper mapper)
+        public UserTourService(IUnitOfWork uow, IMapper mapper, IQueueMessageSubscriber<BookingFinishedEvent> queueMessageSubscriber)
         {
             this.mapper = mapper;
             this.uow = uow;
+            this.queueMessageSubscriber = queueMessageSubscriber;
         }
 
         public void RegisterUserForTour(UserTour userTour)
@@ -67,6 +70,25 @@ namespace WhereToServices
             var userTour = mapper.Map<PayForTourDto, UserTour>(payForTourDto);
             userTour.IsPayed = true;
             userTour.Status = UserTourStatus.Processing;
+            UpdateUserTour(userTour);
+        }
+
+        public async Task ApplyForTourAsync()
+        {
+            var bookingModel = await queueMessageSubscriber.ReadMessageFromQueueAsync();
+
+            if (bookingModel != null)
+            {
+                var user = uow.Users.GetByPassport(bookingModel.Passport);
+                var userTour = uow.UserTours.GetUserTourByUserIdAndTourId(user.Id, Int32.Parse(bookingModel.TourId));
+                userTour.Status = UserTourStatus.Applied;
+                UpdateUserTour(userTour);
+                await queueMessageSubscriber.DeleteMessageAsync();
+            }
+        }
+
+        private void UpdateUserTour(UserTour userTour)
+        {
             uow.UserTours.Update(userTour);
             uow.Save();
         }

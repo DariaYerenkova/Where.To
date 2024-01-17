@@ -21,9 +21,11 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITourService, TourService>();
 builder.Services.AddScoped<IUserTourService, UserTourService>();
 builder.Services.AddScoped<IQueueMessagePublisher<PayForTourDto>, WhereTo_BookingQueueMessagePublisherService>();
+builder.Services.AddScoped<IQueueMessageSubscriber<BookingFinishedEvent>, WhereTo_BookingFinishedQueueSubscriberService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddHostedService<TourBookingExpirationChecker>();
+builder.Services.AddHostedService<WhereTo_BookingFinishedQueueSubscriber>();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
@@ -45,12 +47,7 @@ builder.Host.UseSerilog();
 
 builder.Services.AddAzureClients(b =>
 {
-    b.AddClient<QueueClient, QueueClientOptions>((_, _, _) =>
-    {
-        string storageConnectionString = builder.Configuration.GetConnectionString("AzureStorage");
-        string queueName = builder.Configuration["QueueNames:WhereToBookingQueue"];
-        return new QueueClient(storageConnectionString, queueName);
-    });
+    b.AddQueueServiceClient((builder.Configuration.GetConnectionString("AzureStorage")));
 });
 
 var app = builder.Build();
