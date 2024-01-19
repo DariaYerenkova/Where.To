@@ -17,10 +17,10 @@ namespace WhereToServices
         private readonly IUnitOfWork uow;
         private readonly QueueClient queueClient;
 
-        public WhereTo_BookingQueueMessagePublisherService(IUnitOfWork uow, QueueClient queueClient)
+        public WhereTo_BookingQueueMessagePublisherService(IUnitOfWork uow, QueueServiceClient queueClient)
         {
             this.uow = uow;
-            this.queueClient = queueClient;
+            this.queueClient = queueClient.GetQueueClient("whereto-booking");
         }
 
         public async Task SendMessageToQueueAsync(string message)

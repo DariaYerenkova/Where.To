@@ -17,9 +17,9 @@ namespace WhereToServices
         private string messageId;
         private string popReceipt;
 
-        public WhereTo_BookingQueueMessageSubscriberService(QueueClient queueClient)
+        public WhereTo_BookingQueueMessageSubscriberService(QueueServiceClient queueClient)
         {
-            this.queueClient = queueClient;
+            this.queueClient = queueClient.GetQueueClient("whereto-booking");
         }
 
         public async Task<WhereToBookingMessage> ReadMessageFromQueueAsync()

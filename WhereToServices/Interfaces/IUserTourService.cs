@@ -14,5 +14,6 @@ namespace WhereToServices.Interfaces
         public void RemoveUserFromTour(UserTour userTour);
         Task RemoveExpiredBookingsAsync();
         void PayForTour(PayForTourDto payForTourDto);
+        Task ApplyForTourAsync();
     }
 }

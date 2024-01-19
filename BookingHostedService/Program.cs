@@ -35,12 +35,7 @@ builder.Services.AddDbContext<WhereTo_BookingDataContext>(options => options.Use
 
 builder.Services.AddAzureClients(b =>
 {
-    b.AddClient<QueueClient, QueueClientOptions>((_, _, _) =>
-    {
-        string storageConnectionString = builder.Configuration.GetConnectionString("AzureStorage");
-        string queueName = builder.Configuration["QueueNames:WhereToBookingQueue"];
-        return new QueueClient(storageConnectionString, queueName);
-    });
+    b.AddQueueServiceClient((builder.Configuration.GetConnectionString("AzureStorage")));
 
     Uri endpoint = new Uri(builder.Configuration["EventGrid:EventGridTopicEndpoint"]);
     AzureKeyCredential credential = new AzureKeyCredential(builder.Configuration["EventGrid:EventGridTopicKey"]);
