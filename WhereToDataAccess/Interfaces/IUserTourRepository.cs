@@ -14,5 +14,6 @@ namespace WhereToDataAccess.Interfaces
         void Delete(int userId, int tourId);
         Task<List<UserTour>> GetNotPayedAndRegisteredEarlierUserToursAsync(DateTime date);
         Task DeleteAsync(int userId, int tourId);
+        UserTour GetUserTourByUserIdAndTourId(int userId, int tourId);
     }
 }

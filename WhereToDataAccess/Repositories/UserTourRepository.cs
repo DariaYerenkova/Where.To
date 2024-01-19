@@ -54,5 +54,10 @@ namespace WhereToDataAccess.Repositories
         {
             context.Entry(item).State = EntityState.Modified;
         }
+
+        public UserTour GetUserTourByUserIdAndTourId(int userId, int tourId)
+        {
+            return context.UserTours.FirstOrDefault(ut => ut.UserId == userId && ut.TourId == tourId);
+        }
     }
 }

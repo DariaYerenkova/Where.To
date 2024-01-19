@@ -14,5 +14,6 @@ namespace WhereToDataAccess.Interfaces
         void Create(User item);
         void Update(User item);
         void Delete(int id);
+        User GetByPassport(string passport);
     }
 }

@@ -24,12 +24,12 @@ namespace WhereToServices
             var eventData = new
             {
                 Id = Guid.NewGuid().ToString(),
-                Subject = "CustomSubject",
+                Subject = "BookingFinished",
                 EventType = "custom.event.type",
                 Data = new
                 {
                     TourId = model.TourId,
-                    Passport = model.UserPassport
+                    Passport = model.Passport
                 }
             };
 
