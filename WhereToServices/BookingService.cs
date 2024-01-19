@@ -23,15 +23,15 @@ namespace WhereToServices
         private readonly IEventPublisherService<BookingFinishedEvent> eventPublisher;
         private readonly IUnitOfWork uow;
         private readonly IMapper mapper;
-        private readonly IHttpClientWrapper httpClient;
+        private readonly HttpClient httpClient;
         private User createdUser;
 
-    public BookingService(IQueueMessageSubscriber<WhereToBookingMessage> queueMessageSubscriber, IUnitOfWork uow, IMapper mapper, IHttpClientWrapper client, IEventPublisherService<BookingFinishedEvent> eventPublisher)
+    public BookingService(IQueueMessageSubscriber<WhereToBookingMessage> queueMessageSubscriber, IUnitOfWork uow, IMapper mapper, IEventPublisherService<BookingFinishedEvent> eventPublisher, HttpMessageHandler httpMessageHandler)
         {
             this.queueMessageSubscriber = queueMessageSubscriber;
             this.uow = uow;
             this.mapper = mapper;
-            this.httpClient = client;
+            this.httpClient = new HttpClient(httpMessageHandler);
             this.eventPublisher = eventPublisher;
         }
 

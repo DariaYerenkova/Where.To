@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Moq;
+using Moq.Protected;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace ServicesTests
         private readonly Mock<IUserHotelRepository> mockUserHotelRepository;
         private readonly Mock<IQueueMessageSubscriber<WhereToBookingMessage>> mockQueueMessageSubscriber;
         private readonly Mock<IMapper> mockAutomapper;
-        private readonly Mock<IHttpClientWrapper> mockHttpClient;
+        private readonly Mock<HttpMessageHandler> mockHttpClient;
         private readonly Mock<IEventPublisherService<BookingFinishedEvent>> mockEventPublisher;
         private readonly User fakeUser;
         private readonly BookingFinishedEvent fakeEventData;
@@ -39,7 +40,7 @@ namespace ServicesTests
             mockQueueMessageSubscriber = new Mock<IQueueMessageSubscriber<WhereToBookingMessage>>();
             mockEventPublisher = new Mock<IEventPublisherService<BookingFinishedEvent>>();
             mockAutomapper = new Mock<IMapper>();
-            mockHttpClient = new Mock<IHttpClientWrapper>();
+            mockHttpClient = new Mock<HttpMessageHandler>();
 
             var bookingModel = new WhereToBookingMessage("firstname", "lastname", "0000", 1);
             fakeUser = new User { Id = 1, FirstName = "firstname", LastName = "lastname", PassportNumber = "0000" };
@@ -48,11 +49,18 @@ namespace ServicesTests
             mockUnitOfWork.Setup(m => m.Users).Returns(mockUserRepository.Object);
             mockUnitOfWork.Setup(m => m.UserFlights).Returns(mockUserFlightRepository.Object);
             mockUnitOfWork.Setup(m => m.UserHotels).Returns(mockUserHotelRepository.Object);
-            bookingService = new BookingService(mockQueueMessageSubscriber.Object, mockUnitOfWork.Object, mockAutomapper.Object, mockHttpClient.Object, mockEventPublisher.Object);
+            bookingService = new BookingService(mockQueueMessageSubscriber.Object, mockUnitOfWork.Object, mockAutomapper.Object, mockEventPublisher.Object, mockHttpClient.Object);
             mockQueueMessageSubscriber.Setup(q => q.ReadMessageFromQueueAsync()).ReturnsAsync(bookingModel);
             mockAutomapper.Setup(x => x.Map<WhereToBookingMessage, User>(It.IsAny<WhereToBookingMessage>())).Returns(fakeUser);
             mockUserRepository.Setup(m => m.Create(It.IsAny<User>())).Returns(fakeUser);
-            mockHttpClient.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(new HttpResponseMessage { StatusCode = HttpStatusCode.OK, Content = new StringContent("{ \"TourName\": \"Test Tour\" }") });
+
+            mockHttpClient.Protected()
+            .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent("{ \"TourName\": \"Test Tour\" }")
+            });
         }
 
         [Fact]
