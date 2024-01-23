@@ -9,6 +9,7 @@ using WhereToDataAccess.Migrations;
 using WhereToDataAccess.WhereTo_BookingInterfaces;
 using WhereToServices;
 using WhereToServices.DTOs;
+using WhereToServices.HttpMessageHandlers;
 using WhereToServices.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,10 +21,12 @@ builder.Services.AddScoped<IQueueMessageSubscriber<WhereToBookingMessage>, Where
 builder.Services.AddScoped<IEventPublisherService<BookingFinishedEvent>, EventPublisherService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddHttpClient<WhereTo_BookingQueueSubscriber>(client =>
+
+builder.Services.AddTransient<HttpMessageHandler, BookingService_HttpMessageHandler>();
+builder.Services.AddHttpClient<WhereTo_BookingQueueSubscriber>(c =>
 {
-    client.BaseAddress = new Uri("http://localhost:5269/");
-});
+    c.BaseAddress = new Uri("http://localhost:5269/");
+}).AddHttpMessageHandler<BookingService_HttpMessageHandler>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
