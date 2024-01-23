@@ -24,6 +24,10 @@ jobs:
           name: exported-test-results
           path: out
 
-      - name: Docker build image
+      - name: Docker build WhereTo image
         run:
-          docker build -t whereto:latest .
+          docker build -t whereto:latest -f Dockerfile .
+          
+      - name: Docker build BookingService image
+        run:
+          docker build -t bookingservice:latest -f BookingServiceDockerfile .
