@@ -19,7 +19,7 @@ namespace WhereTo.Controllers
 
         [HttpGet("{id}")]
         public ActionResult<Tour> GetTourById(int id)
-        { 
+        {
             var tour = tourService.GetTourById(id);
 
             return Ok(tour);
