@@ -22,7 +22,7 @@ builder.Services.AddScoped<ITourService, TourService>();
 builder.Services.AddScoped<IUserTourService, UserTourService>();
 builder.Services.AddScoped<IQueueMessagePublisher<PayForTourDto>, WhereTo_BookingQueueMessagePublisherService>();
 builder.Services.AddScoped<IQueueMessageSubscriber<BookingFinishedEvent>, WhereTo_BookingFinishedQueueSubscriberService>();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddHostedService<TourBookingExpirationChecker>();
 builder.Services.AddHostedService<WhereTo_BookingFinishedQueueSubscriber>();
@@ -70,3 +70,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }
