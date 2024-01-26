@@ -19,7 +19,7 @@ namespace WhereToServices
 
         public WhereTo_BookingFinishedQueueSubscriberService(QueueServiceClient queueClient)
         {
-            this.queueClient = queueClient.GetQueueClient("whereto-booking-finished") ;
+            this.queueClient = queueClient.GetQueueClient("whereto-booking-finished");
         }
 
         public async Task DeleteMessageAsync()
@@ -35,8 +35,13 @@ namespace WhereToServices
             EventGridEvent deserializedMessage = null;
             BookingFinishedEvent bookingFinished = null;
             var response = await queueClient.ReceiveMessageAsync();
-            byte[] decodedBytes = Convert.FromBase64String(Encoding.UTF8.GetString(response.Value.Body));
-            string decodedMessage = Encoding.UTF8.GetString(decodedBytes);
+            string decodedMessage = null;
+
+            if (response.Value != null)
+            {
+                byte[] decodedBytes = Convert.FromBase64String(Encoding.UTF8.GetString(response.Value.Body));
+                decodedMessage = Encoding.UTF8.GetString(decodedBytes);
+            }
 
             if (!string.IsNullOrEmpty(decodedMessage))
             {

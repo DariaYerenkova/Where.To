@@ -31,7 +31,7 @@ namespace WhereToServices
         {
             userTour.DateRegistered = DateTime.Now.Date;
             userTour.IsPayed = false;
-            userTour.Status = UserTourStatus.Applied;
+            userTour.Status = UserTourStatus.Registered;
             uow.UserTours.Create(userTour);
             uow.Save();
         }
@@ -67,7 +67,8 @@ namespace WhereToServices
 
         public void PayForTour(PayForTourDto payForTourDto)
         {
-            var userTour = mapper.Map<PayForTourDto, UserTour>(payForTourDto);
+            //var userTour = mapper.Map<PayForTourDto, UserTour>(payForTourDto);
+            var userTour = uow.UserTours.GetUserTourByUserIdAndTourId(payForTourDto.UserId, payForTourDto.TourId);
             userTour.IsPayed = true;
             userTour.Status = UserTourStatus.Processing;
             UpdateUserTour(userTour);
