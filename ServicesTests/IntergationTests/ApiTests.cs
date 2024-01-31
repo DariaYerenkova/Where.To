@@ -51,7 +51,7 @@ namespace ServicesTests.IntergationTests
         {
             var command = RequestFactory.CreateCommand(1, 1);
 
-            await RegularApiClient.RegisterForTourApi.RegisterUserForTour(command).ShouldNotBeNull();
+            await RegularApiClient.RegisterForTourApi.RegisterUserForTour(command).ShouldNotThrowAsync();
         }
 
         [Fact]
@@ -59,7 +59,7 @@ namespace ServicesTests.IntergationTests
         {
             var command = RequestFactory.CreateCommand(1, 1);
 
-            await RegularApiClient.RegisterForTourApi.RemoveUserFromTour(command).ShouldNotBeNull();
+            await RegularApiClient.RegisterForTourApi.RemoveUserFromTour(command).ShouldNotThrowAsync();
         }
     }
 }
