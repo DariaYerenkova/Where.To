@@ -12,9 +12,9 @@ namespace ServicesTests.IntergationTests
     public interface IRegisterForTourApi
     {
         [Post("/api/Register")]
-        Task <ActionResult> RegisterUserForTour([Body] RegisterControllerCommand request);
+        Task RegisterUserForTour([Body] RegisterControllerCommand request);
 
         [Post("/api/Register/RemoveRegistration")]
-        Task<ActionResult> RemoveUserFromTour([Body] RegisterControllerCommand request);
+        Task RemoveUserFromTour([Body] RegisterControllerCommand request);
     }
 }

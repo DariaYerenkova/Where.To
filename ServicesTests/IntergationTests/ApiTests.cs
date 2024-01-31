@@ -51,9 +51,15 @@ namespace ServicesTests.IntergationTests
         {
             var command = RequestFactory.CreateCommand(1, 1);
 
-            var act = await RegularApiClient.RegisterForTourApi.RegisterUserForTour(command);
+            await RegularApiClient.RegisterForTourApi.RegisterUserForTour(command).ShouldNotBeNull();
+        }
 
-            Assert.NotNull(act); // Ensure the result is not null
+        [Fact]
+        public async Task RemoveRegistration_Success()
+        {
+            var command = RequestFactory.CreateCommand(1, 1);
+
+            await RegularApiClient.RegisterForTourApi.RemoveUserFromTour(command).ShouldNotBeNull();
         }
     }
 }
