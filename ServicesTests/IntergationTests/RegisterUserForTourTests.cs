@@ -47,8 +47,8 @@ namespace ServicesTests.IntergationTests
             // Arrange
             var userTourRequest = new UserTour
             {
-                UserId = 1,
-                TourId = 1
+                UserId = 2,
+                TourId = 2
             };
 
             var jsonContent = new StringContent(JsonConvert.SerializeObject(userTourRequest), Encoding.UTF8, "application/json");
@@ -66,8 +66,8 @@ namespace ServicesTests.IntergationTests
             // Arrange
             var userTourRequest = new UserTour
             {
-                UserId = 1,
-                TourId = 1
+                UserId = 2,
+                TourId = 2
             };
 
             var jsonContent = new StringContent(JsonConvert.SerializeObject(userTourRequest), Encoding.UTF8, "application/json");
