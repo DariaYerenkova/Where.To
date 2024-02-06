@@ -12,6 +12,7 @@ using Azure.Storage.Queues;
 using System.Configuration;
 using Microsoft.Extensions.Azure;
 using WhereToServices.DTOs;
+using Azure.Storage.Blobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,9 @@ builder.Services.AddScoped<ITourService, TourService>();
 builder.Services.AddScoped<IUserTourService, UserTourService>();
 builder.Services.AddScoped<IQueueMessagePublisher<PayForTourDto>, WhereTo_BookingQueueMessagePublisherService>();
 builder.Services.AddScoped<IQueueMessageSubscriber<BookingFinishedEvent>, WhereTo_BookingFinishedQueueSubscriberService>();
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddSingleton<IBlobService, BlobService>();
+builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddHostedService<TourBookingExpirationChecker>();
 builder.Services.AddHostedService<WhereTo_BookingFinishedQueueSubscriber>();
@@ -48,6 +51,7 @@ builder.Host.UseSerilog();
 builder.Services.AddAzureClients(b =>
 {
     b.AddQueueServiceClient((builder.Configuration.GetConnectionString("AzureStorage")));
+    b.AddBlobServiceClient(builder.Configuration.GetConnectionString("AzureStorage"));
 });
 
 var app = builder.Build();

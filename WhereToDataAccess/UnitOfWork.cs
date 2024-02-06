@@ -20,8 +20,29 @@ namespace WhereToDataAccess
         private ICityRepository cityRepository;
         private ITourCityRepository tourCityRepository;
         private IUserTourRepository userTourRepository;
+        private IBlobAttachmentsRepository blobAttachmentsRepository;
+        private ITourFeedbackRepository tourFeedbackRepository;
 
         #endregion
+        public ITourFeedbackRepository TourFeedbacks
+        {
+            get 
+            { 
+                if(tourFeedbackRepository == null)
+                    tourFeedbackRepository = new TourFeedbackRepository(whereToDataContext);
+                return tourFeedbackRepository;
+            }
+        }
+
+        public IBlobAttachmentsRepository BlobAttachments
+        {
+            get
+            {
+                if (blobAttachmentsRepository == null)
+                    blobAttachmentsRepository = new BlobAttachmentsRepository(whereToDataContext);
+                return blobAttachmentsRepository;
+            }
+        }
 
         public ITourRepository Tours
         {

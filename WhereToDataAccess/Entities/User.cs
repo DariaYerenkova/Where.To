@@ -26,5 +26,7 @@ namespace WhereToDataAccess.Entities
         public string Passport { get; set; }
 
         public ICollection<UserTour>? UserTours { get; set; }
+
+        public ICollection<TourFeedback>? TourFeedbacks { get; set;}
     }
 }

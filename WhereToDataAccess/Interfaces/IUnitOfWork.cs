@@ -15,6 +15,8 @@ namespace WhereToDataAccess.Interfaces
         ICityRepository Cities { get; }
         ITourCityRepository TourCities { get; }
         IUserTourRepository UserTours { get; }
+        ITourFeedbackRepository TourFeedbacks { get; }
+        IBlobAttachmentsRepository BlobAttachments { get; }
         void Save();
         Task SaveAsync();
     }
