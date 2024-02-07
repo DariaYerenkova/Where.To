@@ -11,6 +11,6 @@ namespace WhereToServices.DTOs
         public string UserName { get; set; }
         public string TourDescription { get; set; }
         public string Comment { get; set; }
-        public List<File> Attachments { get; set; }
+        //public List<File> Attachments { get; set; }
     }
 }
