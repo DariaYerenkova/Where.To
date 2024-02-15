@@ -30,21 +30,28 @@ namespace WhereTo.Controllers
             return File(data.Content.ToStream(), data.Details.ContentType);
         }
 
-        [HttpPost("uploadfile")]
-        public async Task<IActionResult> UploadFile()
-        {
-            BlobStorageModel model = new BlobStorageModel();
-            model.FilePath = @"C:\\Users\\dnazare\\Downloads\\IMG_4027.jpg";
-            model.FileName = "IMG_9";
-            model.FileContent = provider.TryGetContentType(model.FilePath, out var contentType) ? contentType : "application/octet-stream";
-            await blobService.UploadFileBlobAsync(model.FilePath, model.FileName, model.FileContent);
-            return Ok();
-        }
+        //[HttpPost("uploadfile")]
+        //public async Task<IActionResult> UploadFile()
+        //{
+        //    BlobStorageModel model = new BlobStorageModel();
+        //    model.FilePath = @"C:\\Users\\dnazare\\Downloads\\IMG_4027.jpg";
+        //    model.FileName = "IMG_9";
+        //    model.FileContent = provider.TryGetContentType(model.FilePath, out var contentType) ? contentType : "application/octet-stream";
+        //    await blobService.UploadFileBlobAsync(model.FilePath, model.FileName, model.FileContent);
+        //    return Ok();
+        //}
 
         [HttpPost("uploadfeedback")]
         public async Task<IActionResult> UploadFeedback([FromBody] FeedbackDto model)
         {
-            await feedbackService.CreateFeedback(model);
+            var response = await feedbackService.CreateFeedback(model);
+            return Ok(response);
+        }
+
+        [HttpPost("uploadphoto{sasToken}")]
+        public async Task<IActionResult> UploadPhotoBySas(string sasToken, [FromBody] UploadPhotoUsingSasModel model)
+        {
+            await feedbackService.UploadPhotoToBlob(sasToken, model);
             return Ok();
         }
     }

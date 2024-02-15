@@ -26,12 +26,12 @@ namespace WhereToServices
             this.blobService = blobService;
         }
 
-        public async Task CreateFeedback(FeedbackDto tourFeedback)
+        public async Task<List<SasFilePathResponseModel>> CreateFeedback(FeedbackDto tourFeedback)
         {
             // add feedback to db table
             var feedback = mapper.Map<FeedbackDto, TourFeedback>(tourFeedback);
             uow.TourFeedbacks.Create(feedback);
-            uow.Save();
+            await uow.SaveAsync();
 
             var blobStorageModel = new List<BlobStorageModel>();
             foreach (var item in tourFeedback.FilePaths)
@@ -39,17 +39,29 @@ namespace WhereToServices
                 BlobStorageModel model = new BlobStorageModel();
                 model.FilePath = item;
                 model.FileContent = provider.TryGetContentType(item, out var contentType) ? contentType : "application/octet-stream";
+                // guid will be stored in the db 
                 model.FileName = Guid.NewGuid().ToString();
                 blobStorageModel.Add(model);
             }
 
             //send to blob storage
+            //foreach (var item in blobStorageModel)
+            //{
+            //    await blobService.UploadFileBlobAsync(item.FilePath, item.FileName, item.FileContent);
+            //}
+
+            //Generate sas(write) key for file uploading
+            var sasFilePathModel = new List<SasFilePathResponseModel>();
             foreach (var item in blobStorageModel)
             {
-                await blobService.UploadFileBlobAsync(item.FilePath, item.FileName, item.FileContent);
-            }            
+                SasFilePathResponseModel model = new SasFilePathResponseModel();
+                model.FilePatht = item.FilePath;
+                model.SasToken = await blobService.GenerateSasTokenForUserFileName(item.FileName);
+                model.GuidFileName = item.FileName;
+                sasFilePathModel.Add(model);
+            }
 
-            //add attachments to db table
+            //add attachments Guid to db table
             var blobStorageAttachments = new List<BlobAttachments_feedbackphotos>();
             foreach (var item in blobStorageModel)
             {
@@ -61,6 +73,13 @@ namespace WhereToServices
 
             uow.BlobAttachments.CreateRange(blobStorageAttachments);
             uow.Save();
+
+            return sasFilePathModel;
+        }
+
+        public async Task UploadPhotoToBlob(string token, UploadPhotoUsingSasModel content)
+        {
+            await blobService.UploadPhotoBySas(token, content);
         }
 
         public TourFeedback GetTourFeedbackByUserId(int id)
