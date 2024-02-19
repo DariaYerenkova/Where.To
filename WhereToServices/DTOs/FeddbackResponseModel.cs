@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace WhereToServices.DTOs
 {
-    public class FeedbackViewModel
+    public class FeddbackResponseModel
     {
-        public string UserName { get; set; }
-        public string TourDescription { get; set; }
+        public int FeedbackId { get; set; }
         public string Comment { get; set; }
-        //public List<File> Attachments { get; set; }
+        public List<string> AttachmentsSasUrls { get; set; }
     }
 }

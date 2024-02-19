@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Blobs;
+﻿using Azure.Storage;
+using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection.Metadata;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,12 +23,12 @@ namespace WhereToServices
     public class BlobService : IBlobService
     {
         private readonly BlobServiceClient blobServiceClient;
-        CloudBlobClient cloudBlobClient;
+        StorageSharedKeyCredential storageSharedKeyCredential;
 
-        public BlobService(BlobServiceClient blobServiceClient, CloudBlobClient cloudBlobClient)
+        public BlobService(BlobServiceClient blobServiceClient, StorageSharedKeyCredential storageSharedKeyCredential)
         {
             this.blobServiceClient = blobServiceClient;
-            this.cloudBlobClient = cloudBlobClient;
+            this.storageSharedKeyCredential = storageSharedKeyCredential;
         }
 
         public Task DeleteBlobAsync(string filePath)
@@ -34,13 +36,22 @@ namespace WhereToServices
             throw new NotImplementedException();
         }
 
-        public async Task<BlobDownloadResult> GetBlobAsync(string name)
+        public string GetBlobSasUrl(string name)
         {
             var containerClient = blobServiceClient.GetBlobContainerClient("feedbackphotos");
-            var blobClient = containerClient.GetBlobClient(name);
-            var blobDownloadInfo = await blobClient.DownloadContentAsync();
+            BlobClient blobClient = containerClient.GetBlobClient(name);
 
-            return blobDownloadInfo.Value;
+            BlobSasBuilder blobSasBuilder = new BlobSasBuilder()
+            {
+                BlobContainerName = "feedbackphotos",
+                BlobName = name,
+                ExpiresOn = DateTime.UtcNow.AddHours(1),
+            };
+            blobSasBuilder.SetPermissions(BlobSasPermissions.Read);
+            var sasToken = blobSasBuilder.ToSasQueryParameters(storageSharedKeyCredential).ToString();
+            var sasUrl = blobClient.Uri.AbsoluteUri + "?" + sasToken;
+
+            return sasUrl;
         }
 
         public async Task UploadFileBlobAsync(string filePath, string fileName, string contentType)
@@ -50,32 +61,22 @@ namespace WhereToServices
             await blobClient.UploadAsync(filePath, new BlobHttpHeaders { ContentType = contentType });
         }
 
-        public async Task<string> GenerateSasTokenForUserFileName(string guidFileName)
+        public string GenerateSasTokenForUserFileName(string guidFileName)
         {
-            //var containerClient = blobServiceClient.GetBlobContainerClient("feedbackphotos");
-            //BlobClient blobClient = containerClient.GetBlobClient(guidFileName);
+            var containerClient = blobServiceClient.GetBlobContainerClient("feedbackphotos");
+            BlobClient blobClient = containerClient.GetBlobClient(guidFileName);
 
-            //await blobClient.UploadAsync(new MemoryStream(Array.Empty<byte>()), true);
-
-            //BlobSasPermissions sasPermissions = BlobSasPermissions.Write;
-
-            //// Generate the SAS token
-            //var sasToken = blobClient.GenerateSasUri(sasPermissions, DateTimeOffset.UtcNow.AddHours(1)).AbsoluteUri;
-
-            CloudBlobContainer container = cloudBlobClient.GetContainerReference("feedbackphotos");
-
-            var blobRef = container.GetBlockBlobReference(guidFileName);
-            // Upload the empty blob
-            await blobRef.UploadTextAsync("");
-
-            CloudBlockBlob blob = (CloudBlockBlob)blobRef;
-            string sasToken = blob.GetSharedAccessSignature(new SharedAccessBlobPolicy
+            BlobSasBuilder blobSasBuilder = new BlobSasBuilder()
             {
-                Permissions = SharedAccessBlobPermissions.Write,
-                SharedAccessExpiryTime = DateTime.UtcNow.AddHours(1) // set the expiry time for the SAS token
-            });
+                BlobContainerName = "feedbackphotos",
+                BlobName = guidFileName,
+                ExpiresOn = DateTime.UtcNow.AddHours(1),
+            };
+            blobSasBuilder.SetPermissions(BlobSasPermissions.Write);
+            var sasToken = blobSasBuilder.ToSasQueryParameters(storageSharedKeyCredential).ToString();
+            var sasUrl = blobClient.Uri.AbsoluteUri + "?" + sasToken;
 
-            return $"{blob.Uri}{sasToken}";
+            return sasUrl;
         }
 
         public async Task UploadPhotoBySas(string token, UploadPhotoUsingSasModel content)

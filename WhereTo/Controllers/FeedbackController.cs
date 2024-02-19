@@ -23,23 +23,12 @@ namespace WhereTo.Controllers
 
         }
 
-        [HttpGet("{blobName}")]
-        public async Task<IActionResult> GetBlob(string blobName)
+        [HttpGet("{feedbackId}")]
+        public async Task<IActionResult> GetFeedback(int feedbackId)
         {
-            var data = await blobService.GetBlobAsync(blobName);
-            return File(data.Content.ToStream(), data.Details.ContentType);
+            var data = await feedbackService.GetFeedbackAsync(feedbackId);
+            return Ok(data);
         }
-
-        //[HttpPost("uploadfile")]
-        //public async Task<IActionResult> UploadFile()
-        //{
-        //    BlobStorageModel model = new BlobStorageModel();
-        //    model.FilePath = @"C:\\Users\\dnazare\\Downloads\\IMG_4027.jpg";
-        //    model.FileName = "IMG_9";
-        //    model.FileContent = provider.TryGetContentType(model.FilePath, out var contentType) ? contentType : "application/octet-stream";
-        //    await blobService.UploadFileBlobAsync(model.FilePath, model.FileName, model.FileContent);
-        //    return Ok();
-        //}
 
         [HttpPost("uploadfeedback")]
         public async Task<IActionResult> UploadFeedback([FromBody] FeedbackDto model)

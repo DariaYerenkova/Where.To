@@ -34,7 +34,7 @@ namespace WhereToDataAccess.Repositories
 
         public TourFeedback Get(int id)
         {
-            return context.TourFeedbacks.Include(f => f.User).Include(f=>f.Tour).FirstOrDefault(f => f.Id == id);
+            return context.TourFeedbacks.Include(f => f.User).Include(f=>f.Tour).Include(f=>f.FeedbackPhotos).FirstOrDefault(f => f.Id == id);
         }
 
         public void Update(TourFeedback item)

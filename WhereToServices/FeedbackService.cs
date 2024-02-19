@@ -44,19 +44,13 @@ namespace WhereToServices
                 blobStorageModel.Add(model);
             }
 
-            //send to blob storage
-            //foreach (var item in blobStorageModel)
-            //{
-            //    await blobService.UploadFileBlobAsync(item.FilePath, item.FileName, item.FileContent);
-            //}
-
             //Generate sas(write) key for file uploading
             var sasFilePathModel = new List<SasFilePathResponseModel>();
             foreach (var item in blobStorageModel)
             {
                 SasFilePathResponseModel model = new SasFilePathResponseModel();
                 model.FilePatht = item.FilePath;
-                model.SasToken = await blobService.GenerateSasTokenForUserFileName(item.FileName);
+                model.SasToken = blobService.GenerateSasTokenForUserFileName(item.FileName);
                 model.GuidFileName = item.FileName;
                 sasFilePathModel.Add(model);
             }
@@ -82,9 +76,23 @@ namespace WhereToServices
             await blobService.UploadPhotoBySas(token, content);
         }
 
-        public TourFeedback GetTourFeedbackByUserId(int id)
+        public async Task<FeddbackResponseModel> GetFeedbackAsync(int feedbackId)
         {
-            throw new NotImplementedException();
+            var feedback = uow.TourFeedbacks.Get(feedbackId);
+
+            var feedbackAttachmentsSasUrls = new List<string>();
+
+            foreach (var item in feedback.FeedbackPhotos) 
+            {
+                feedbackAttachmentsSasUrls.Add(blobService.GetBlobSasUrl(item.FileName));
+            }
+
+            var responseModel = new FeddbackResponseModel();
+            responseModel.FeedbackId = feedbackId;
+            responseModel.Comment = feedback.Comment;
+            responseModel.AttachmentsSasUrls = feedbackAttachmentsSasUrls;
+
+            return responseModel;
         }
     }
 }

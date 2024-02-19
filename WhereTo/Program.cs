@@ -15,6 +15,7 @@ using WhereToServices.DTOs;
 using Azure.Storage.Blobs;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage;
+using Azure.Storage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,15 +57,10 @@ builder.Services.AddAzureClients(b =>
     b.AddBlobServiceClient(builder.Configuration.GetConnectionString("AzureStorage"));
 });
 
-builder.Services.AddSingleton<CloudBlobClient>(provider =>
+builder.Services.AddSingleton(sp =>
 {
-    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(builder.Configuration.GetConnectionString("AzureStorage"));
-
-    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-
-    return blobClient;
+    return new StorageSharedKeyCredential(builder.Configuration["AzureStorageAccountKeys:StorageName"], builder.Configuration["AzureStorageAccountKeys:StorageKey"]);
 });
-
 
 var app = builder.Build();
 

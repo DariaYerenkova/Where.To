@@ -10,10 +10,10 @@ namespace WhereToServices.Interfaces
 {
     public interface IBlobService
     {
-        Task<BlobDownloadResult> GetBlobAsync(string name);
+        string GetBlobSasUrl(string name);
         Task UploadFileBlobAsync(string filePath, string fileName, string contentType);
         Task DeleteBlobAsync(string filePath);
-        Task<string> GenerateSasTokenForUserFileName(string userFileName);
+        string GenerateSasTokenForUserFileName(string userFileName);
         Task UploadPhotoBySas(string token, UploadPhotoUsingSasModel content);
     }
 }

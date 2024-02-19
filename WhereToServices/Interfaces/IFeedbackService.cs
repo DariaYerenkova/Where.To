@@ -10,8 +10,9 @@ namespace WhereToServices.Interfaces
 {
     public interface IFeedbackService
     {
-        TourFeedback GetTourFeedbackByUserId(int id);
         Task<List<SasFilePathResponseModel>> CreateFeedback(FeedbackDto tourFeedback);
         Task UploadPhotoToBlob(string token,UploadPhotoUsingSasModel content);
+
+        Task<FeddbackResponseModel> GetFeedbackAsync(int feedbackId);
     }
 }
