@@ -16,7 +16,6 @@ using System.Text;
 using System.Threading.Tasks;
 using WhereToServices.DTOs;
 using WhereToServices.Interfaces;
-using static System.Net.WebRequestMethods;
 
 namespace WhereToServices
 {
@@ -41,14 +40,7 @@ namespace WhereToServices
             var containerClient = blobServiceClient.GetBlobContainerClient("feedbackphotos");
             BlobClient blobClient = containerClient.GetBlobClient(name);
 
-            BlobSasBuilder blobSasBuilder = new BlobSasBuilder()
-            {
-                BlobContainerName = "feedbackphotos",
-                BlobName = name,
-                ExpiresOn = DateTime.UtcNow.AddHours(1),
-            };
-            blobSasBuilder.SetPermissions(BlobSasPermissions.Read);
-            var sasToken = blobSasBuilder.ToSasQueryParameters(storageSharedKeyCredential).ToString();
+            var sasToken = GenerateReadWriteSasToken(false, name);
             var sasUrl = blobClient.Uri.AbsoluteUri + "?" + sasToken;
 
             return sasUrl;
@@ -66,14 +58,7 @@ namespace WhereToServices
             var containerClient = blobServiceClient.GetBlobContainerClient("feedbackphotos");
             BlobClient blobClient = containerClient.GetBlobClient(guidFileName);
 
-            BlobSasBuilder blobSasBuilder = new BlobSasBuilder()
-            {
-                BlobContainerName = "feedbackphotos",
-                BlobName = guidFileName,
-                ExpiresOn = DateTime.UtcNow.AddHours(1),
-            };
-            blobSasBuilder.SetPermissions(BlobSasPermissions.Write);
-            var sasToken = blobSasBuilder.ToSasQueryParameters(storageSharedKeyCredential).ToString();
+            var sasToken = GenerateReadWriteSasToken(true, guidFileName);
             var sasUrl = blobClient.Uri.AbsoluteUri + "?" + sasToken;
 
             return sasUrl;
@@ -91,6 +76,18 @@ namespace WhereToServices
             {
                 await blob.UploadFromStreamAsync(stream);
             }
+        }
+
+        private string GenerateReadWriteSasToken(bool isWritable, string guidFileName)
+        {
+            BlobSasBuilder blobSasBuilder = new BlobSasBuilder()
+            {
+                BlobContainerName = "feedbackphotos",
+                BlobName = guidFileName,
+                ExpiresOn = DateTime.UtcNow.AddHours(1),
+            };
+            blobSasBuilder.SetPermissions(isWritable ? BlobSasPermissions.Write : BlobSasPermissions.Read);
+            return blobSasBuilder.ToSasQueryParameters(storageSharedKeyCredential).ToString();
         }
     }
 }
