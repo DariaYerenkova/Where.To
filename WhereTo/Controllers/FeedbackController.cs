@@ -20,7 +20,6 @@ namespace WhereTo.Controllers
         {
             this.blobService = blobService;
             this.feedbackService = feedbackService;
-
         }
 
         [HttpGet("{feedbackId}")]
@@ -37,7 +36,7 @@ namespace WhereTo.Controllers
             return Ok(response);
         }
 
-        [HttpPost("uploadphoto{sasToken}")]
+        [HttpPost("uploadphoto")]
         public async Task<IActionResult> UploadPhotoBySas(string sasToken, [FromBody] UploadPhotoUsingSasModel model)
         {
             await feedbackService.UploadPhotoToBlob(sasToken, model);
