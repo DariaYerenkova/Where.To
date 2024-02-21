@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace WhereToServices.DTOs
 {
-    public class BlobStorageModel
+    public class EmptyBlobForSasGenerationModel
     {
         public string FilePath { get; set; }
-        public string FileContent { get; set; }
         public string FileName { get; set; }
     }
 }

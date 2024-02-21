@@ -28,7 +28,7 @@ builder.Services.AddScoped<IQueueMessagePublisher<PayForTourDto>, WhereTo_Bookin
 builder.Services.AddScoped<IQueueMessageSubscriber<BookingFinishedEvent>, WhereTo_BookingFinishedQueueSubscriberService>();
 builder.Services.AddSingleton<IBlobService, BlobService>();
 builder.Services.AddScoped<IFeedbackService, FeedbackService>();
-builder.Services.AddAutoMapper(typeof(Program), typeof(BlobStorageModel));
+builder.Services.AddAutoMapper(typeof(Program), typeof(EmptyBlobForSasGenerationModel));
 
 builder.Services.AddHostedService<TourBookingExpirationChecker>();
 builder.Services.AddHostedService<WhereTo_BookingFinishedQueueSubscriber>();

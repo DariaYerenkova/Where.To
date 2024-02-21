@@ -33,12 +33,11 @@ namespace WhereToServices
             uow.TourFeedbacks.Create(feedback);
             await uow.SaveAsync();
 
-            var blobStorageModel = new List<BlobStorageModel>();
+            var blobStorageModel = new List<EmptyBlobForSasGenerationModel>();
             foreach (var item in tourFeedback.FilePaths)
             {
-                BlobStorageModel model = new BlobStorageModel();
+                EmptyBlobForSasGenerationModel model = new EmptyBlobForSasGenerationModel();
                 model.FilePath = item;
-                model.FileContent = provider.TryGetContentType(item, out var contentType) ? contentType : "application/octet-stream";
                 // guid will be stored in the db 
                 model.FileName = Guid.NewGuid().ToString();
                 blobStorageModel.Add(model);
