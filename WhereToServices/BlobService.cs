@@ -3,9 +3,6 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
 using Microsoft.Extensions.Configuration;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Auth;
-using Microsoft.WindowsAzure.Storage.Blob;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,17 +61,15 @@ namespace WhereToServices
             return sasUrl;
         }
 
-        public async Task UploadPhotoBySas(string token, UploadPhotoUsingSasModel content)
+        public async Task UploadPhotoBySas(string blobUrlWithSasToken, byte[] content)
         {
-            StorageCredentials credentials = new StorageCredentials(token);
+            // Create a BlobServiceClient with SAS token
+            Uri blobUriWithSas = new Uri($"{blobUrlWithSasToken}");
+            BlobClient blobClient = new BlobClient(blobUriWithSas);
 
-            // Create a blob URI object with the SAS token
-            CloudBlockBlob blob = new CloudBlockBlob(new Uri(content.BlobUrl), credentials);
-
-            // Upload the file content to the blob
-            using (var stream = new MemoryStream(content.fileContent))
+            using (MemoryStream stream = new MemoryStream(content))
             {
-                await blob.UploadFromStreamAsync(stream);
+                await blobClient.UploadAsync(stream, true);
             }
         }
 

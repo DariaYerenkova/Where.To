@@ -37,9 +37,9 @@ namespace WhereTo.Controllers
         }
 
         [HttpPost("uploadphoto")]
-        public async Task<IActionResult> UploadPhotoBySas(string sasToken, [FromBody] UploadPhotoUsingSasModel model)
+        public async Task<IActionResult> UploadPhotoBySas(string sasUrlWithToken, [FromBody] byte[] content)
         {
-            await feedbackService.UploadPhotoToBlob(sasToken, model);
+            await feedbackService.UploadPhotoToBlob(sasUrlWithToken, content);
             return Ok();
         }
     }

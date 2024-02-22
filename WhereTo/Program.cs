@@ -13,8 +13,6 @@ using System.Configuration;
 using Microsoft.Extensions.Azure;
 using WhereToServices.DTOs;
 using Azure.Storage.Blobs;
-using Microsoft.WindowsAzure.Storage.Blob;
-using Microsoft.WindowsAzure.Storage;
 using Azure.Storage;
 
 var builder = WebApplication.CreateBuilder(args);

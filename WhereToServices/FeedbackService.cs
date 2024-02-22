@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.StaticFiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +16,6 @@ namespace WhereToServices
         private readonly IUnitOfWork uow;
         private readonly IMapper mapper;
         private readonly IBlobService blobService;
-        private static readonly FileExtensionContentTypeProvider provider = new FileExtensionContentTypeProvider();
 
         public FeedbackService(IUnitOfWork uow, IMapper mapper, IBlobService blobService)
         {
@@ -70,9 +68,9 @@ namespace WhereToServices
             return sasFilePathModel;
         }
 
-        public async Task UploadPhotoToBlob(string token, UploadPhotoUsingSasModel content)
+        public async Task UploadPhotoToBlob(string urlWithSasToken, byte[] content)
         {
-            await blobService.UploadPhotoBySas(token, content);
+            await blobService.UploadPhotoBySas(urlWithSasToken, content);
         }
 
         public async Task<FeddbackResponseModel> GetFeedbackAsync(int feedbackId)
