@@ -33,5 +33,7 @@ namespace WhereToDataAccess.Entities
         public ICollection<TourCity> TourCities { get; set; }
 
         public ICollection<UserTour>? UserTours { get; set; }
+
+        public ICollection<TourFeedback>? TourFeedbacks { get; set; }
     }
 }

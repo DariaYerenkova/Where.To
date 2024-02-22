@@ -19,6 +19,8 @@ namespace WhereToDataAccess
         public DbSet<City> Cities { get; set; }
         public DbSet<UserTour> UserTours { get; set; }
         public DbSet<TourCity> TourCities { get; set; }
+        public DbSet<TourFeedback> TourFeedbacks { get; set; }
+        public DbSet<BlobAttachments_feedbackphotos> BlobAttachments { get; set; }
 
         #endregion
 
@@ -59,6 +61,21 @@ namespace WhereToDataAccess
             modelBuilder.Entity<Tour>()
                 .Property(t => t.Price)
                 .HasPrecision(10, 2);
+
+            modelBuilder.Entity<BlobAttachments_feedbackphotos>()
+                .HasOne<TourFeedback>(ba => ba.TourFeedback)
+                .WithMany(tf => tf.FeedbackPhotos)
+                .HasForeignKey(ba => ba.TourFeedbackId);
+
+            modelBuilder.Entity<TourFeedback>()
+                .HasOne<User>(tf=>tf.User)
+                .WithMany(u=>u.TourFeedbacks)
+                .HasForeignKey(tf=>tf.UserId);
+
+            modelBuilder.Entity<TourFeedback>()
+                .HasOne<Tour>(tf => tf.Tour)
+                .WithMany(t => t.TourFeedbacks)
+                .HasForeignKey(tf => tf.TourId);
 
             base.OnModelCreating(modelBuilder);
         }
