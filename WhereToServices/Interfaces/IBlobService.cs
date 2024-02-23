@@ -15,5 +15,6 @@ namespace WhereToServices.Interfaces
         Task DeleteBlobAsync(string filePath);
         string GenerateSasTokenForUserFileName(string userFileName);
         Task UploadPhotoBySas(string blobUrlWithSasToken, byte[] content);
+        Task StreamPhotoToBlob(string blobName, Stream content);
     }
 }

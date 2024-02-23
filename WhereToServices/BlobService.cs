@@ -1,4 +1,5 @@
-﻿using Azure.Storage;
+﻿using Azure.Core;
+using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
@@ -83,6 +84,14 @@ namespace WhereToServices
             };
             blobSasBuilder.SetPermissions(isWritable ? BlobSasPermissions.Write : BlobSasPermissions.Read);
             return blobSasBuilder.ToSasQueryParameters(storageSharedKeyCredential).ToString();
+        }
+
+        public async Task StreamPhotoToBlob(string blobName, Stream content)
+        {
+            var containerClient = blobServiceClient.GetBlobContainerClient("feedbackphotos");
+            var blobClient = containerClient.GetBlobClient(blobName);
+
+            await blobClient.UploadAsync(content, false);
         }
     }
 }

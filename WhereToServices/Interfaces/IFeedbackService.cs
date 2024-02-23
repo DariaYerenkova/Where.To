@@ -12,7 +12,7 @@ namespace WhereToServices.Interfaces
     {
         Task<List<SasFilePathResponseModel>> CreateFeedback(FeedbackDto tourFeedback);
         Task UploadPhotoToBlob(string urlWithSasToken, byte[] content);
-
+        Task StreamPhotoToBlob(string blobName, Stream content);
         Task<FeddbackResponseModel> GetFeedbackAsync(int feedbackId);
     }
 }
