@@ -1,18 +1,7 @@
-﻿using Azure.Core;
-using Azure.Storage;
+﻿using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Reflection.Metadata;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Threading.Tasks;
-using WhereToServices.DTOs;
 using WhereToServices.Interfaces;
 
 namespace WhereToServices
