@@ -42,5 +42,12 @@ namespace WhereTo.Controllers
             await feedbackService.UploadPhotoToBlob(sasUrlWithToken, content);
             return Ok();
         }
+
+        [HttpPost("streamphoto")]
+        public async Task<IActionResult> StreamPhoto(string blobName)
+        {
+            await feedbackService.StreamPhotoToBlob(blobName, Request.Body);
+            return Ok();
+        }
     }
 }

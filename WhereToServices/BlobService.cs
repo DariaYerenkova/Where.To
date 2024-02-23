@@ -2,16 +2,6 @@
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Sas;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Reflection.Metadata;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Threading.Tasks;
-using WhereToServices.DTOs;
 using WhereToServices.Interfaces;
 
 namespace WhereToServices
@@ -83,6 +73,14 @@ namespace WhereToServices
             };
             blobSasBuilder.SetPermissions(isWritable ? BlobSasPermissions.Write : BlobSasPermissions.Read);
             return blobSasBuilder.ToSasQueryParameters(storageSharedKeyCredential).ToString();
+        }
+
+        public async Task StreamPhotoToBlob(string blobName, Stream content)
+        {
+            var containerClient = blobServiceClient.GetBlobContainerClient("feedbackphotos");
+            var blobClient = containerClient.GetBlobClient(blobName);
+
+            await blobClient.UploadAsync(content, false);
         }
     }
 }

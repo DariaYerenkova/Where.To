@@ -91,5 +91,10 @@ namespace WhereToServices
 
             return responseModel;
         }
+
+        public async Task StreamPhotoToBlob(string blobName, Stream content)
+        {
+            await blobService.StreamPhotoToBlob(blobName, content);
+        }
     }
 }
