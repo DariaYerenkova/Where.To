@@ -61,7 +61,7 @@ namespace ServicesTests.IntergationTests
         [Fact]
         public async Task RemoveRegistration_Success()
         {
-            var command = RequestFactory.CreateCommand(100, 1000);
+            var command = RequestFactory.CreateRegisterCommand(100, 1000);
 
             await RegularApiClient.RegisterForTourApi.RemoveUserFromTour(command).ShouldNotThrowAsync();
         }
@@ -69,7 +69,7 @@ namespace ServicesTests.IntergationTests
         [Fact]
         public async Task RegisterUserForTour_Unsuccess()
         {
-            var command = RequestFactory.CreateCommand(0, 1);
+            var command = RequestFactory.CreateRegisterCommand(0, 1);
 
             var act = () => RegularApiClient.RegisterForTourApi.RegisterUserForTour(command);
 
@@ -90,7 +90,7 @@ namespace ServicesTests.IntergationTests
 
             for (int i = 0; i < numberOfRuns; i++)
             {
-                var command = RequestFactory.CreateCommand(1, 1);
+                var command = RequestFactory.CreateRegisterCommand(1, 1);
 
                 stopwatch.Restart();
                 var act = () => RegularApiClient.RegisterForTourApi.RegisterUserForTour(command);
