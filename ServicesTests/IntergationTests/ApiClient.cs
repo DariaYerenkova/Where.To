@@ -10,10 +10,12 @@ namespace ServicesTests.IntergationTests
     public class ApiClient
     {
         public IRegisterForTourApi RegisterForTourApi { get; }
+        public IFeedbackApi FeedbackApi { get; }
 
         public ApiClient(HttpClient httpClient)
         {
             RegisterForTourApi = RestService.For<IRegisterForTourApi>(httpClient);
+            FeedbackApi = RestService.For<IFeedbackApi>(httpClient);
         }
     }
 }

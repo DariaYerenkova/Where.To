@@ -10,7 +10,7 @@ namespace ServicesTests.IntergationTests
 {
     public static class RequestFactory
     {
-        public static RegisterControllerCommand CreateCommand(
+        public static RegisterControllerCommand CreateRegisterCommand(
             int UserId = 1,
             int TourId = 1)
             => new(UserId, TourId);

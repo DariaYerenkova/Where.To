@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using WhereToDataAccess.Entities;
@@ -76,6 +77,11 @@ namespace WhereToServices
         public async Task<FeddbackResponseModel> GetFeedbackAsync(int feedbackId)
         {
             var feedback = uow.TourFeedbacks.Get(feedbackId);
+
+            if (feedback == null)
+            {
+                throw new HttpRequestException(null, null, HttpStatusCode.NotFound);
+            }
 
             var feedbackAttachmentsSasUrls = new List<string>();
 

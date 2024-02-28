@@ -51,7 +51,7 @@ namespace ServicesTests.IntergationTests
         [Fact]
         public async Task RegisterUserForTour_Success()
         {
-            var command = RequestFactory.CreateCommand(1, 1);
+            var command = RequestFactory.CreateRegisterCommand(1, 1);
 
             var act = () => RegularApiClient.RegisterForTourApi.RegisterUserForTour(command);
 

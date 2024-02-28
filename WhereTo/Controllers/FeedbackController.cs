@@ -23,7 +23,7 @@ namespace WhereTo.Controllers
         }
 
         [HttpGet("{feedbackId}")]
-        public async Task<IActionResult> GetFeedback(int feedbackId)
+        public async Task<ActionResult<FeddbackResponseModel>> GetFeedback(int feedbackId)
         {
             var data = await feedbackService.GetFeedbackAsync(feedbackId);
             return Ok(data);
