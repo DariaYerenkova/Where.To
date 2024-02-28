@@ -37,7 +37,7 @@ namespace WhereTo.Middleware
             // Handle different types of exceptions 
             (message, statusCode) = ex switch
             {
-                KeyNotFoundException keyNotFound => ("The requested resource was not found.", HttpStatusCode.NotFound),
+                HttpRequestException httpEx when httpEx.StatusCode == HttpStatusCode.NotFound => ("The requested resource was not found.", HttpStatusCode.NotFound),
                 _ => ("An error occurred. Please try again later.", HttpStatusCode.InternalServerError)
             };
 

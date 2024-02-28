@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using WhereToDataAccess.Entities;
@@ -29,6 +30,11 @@ namespace WhereToServices
 
         public void RegisterUserForTour(UserTour userTour)
         {
+            if (userTour.TourId == 0 || userTour.UserId == 0)
+            {
+                throw new HttpRequestException(null, null, HttpStatusCode.NotFound);
+            }
+
             userTour.DateRegistered = DateTime.Now.Date;
             userTour.IsPayed = false;
             userTour.Status = UserTourStatus.Registered;
