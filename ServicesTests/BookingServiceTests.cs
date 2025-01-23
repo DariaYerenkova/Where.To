@@ -64,6 +64,7 @@ namespace ServicesTests
         }
 
         [Fact]
+        [Trait("Booking", "Executed")]
         public async Task InitBookingProcess_Executed()
         {
             // Act

@@ -34,6 +34,7 @@ namespace ServicesTests
             userService = new UserService(mockUnitOfWork.Object);
         }
 
+        [Trait("Category", "User")]
         [Fact]
         public void CreateUser_CreateAndSave()
         {
@@ -47,6 +48,7 @@ namespace ServicesTests
             mockUnitOfWork.Verify(uow => uow.Save(), Times.Once);
         }
 
+        [Trait("Category", "User")]
         [Fact]
         public void Delete_DeleteAndSave()
         {
@@ -61,6 +63,7 @@ namespace ServicesTests
             mockUnitOfWork.Verify(uow => uow.Save(), Times.Once);
         }
 
+        [Trait("Category", "User")]
         [Fact]
         public void GetUsers_ReturnsUsers()
         {
@@ -74,6 +77,7 @@ namespace ServicesTests
             Assert.Equal(fakeUsers, result);
         }
 
+        [Trait("Category", "User")]
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
